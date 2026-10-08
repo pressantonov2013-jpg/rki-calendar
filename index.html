@@ -594,17 +594,38 @@ img,svg{max-width:100%}
 .ev-hl{outline:3px solid var(--g);outline-offset:4px;transition:outline-color .6s}
 .ev-act .btn-reg.done{white-space:nowrap;padding-left:10px;padding-right:10px;min-width:0}
 }
+/* ===== организаторам: кнопка в шапке, пункт меню, окно ===== */
+.b-tx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.b-sub{font-size:13px;font-weight:500;color:#9EA2CC;line-height:1.25}
+.b-sub b{font-weight:700;color:#C9CBE6}
+.org-btn{display:none;margin-left:auto;align-items:center;gap:10px;height:48px;padding:0 22px;border-radius:999px;border:1.5px solid rgba(227,194,122,.75);background:transparent;color:var(--g);font:800 16px 'Manrope',sans-serif;white-space:nowrap;transition:background .2s,border-color .2s}
+.org-btn:hover{background:rgba(227,194,122,.12);border-color:var(--g)}
+.org-m{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;margin-top:12px;min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid rgba(227,194,122,.6);background:transparent;color:var(--g);font:800 14px 'Manrope',sans-serif;text-align:left}
+.nav a.nav-org{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0;padding:12px 14px;border:0;border-radius:12px;background:rgba(227,194,122,.14);color:var(--g)}
+.nav a.nav-org:hover{background:rgba(227,194,122,.22)}
+.org-modal .m-box{width:min(580px,100%)}
+.org-steps{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:16px}
+.org-steps li{display:flex;gap:14px;align-items:flex-start;font-size:16px;line-height:1.5;color:#2A2F55}
+.org-steps b{color:var(--ink)}
+.os-n{flex:none;width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--g);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.org-go{width:100%;flex:none;margin-top:26px;font-family:'Manrope',sans-serif;font-size:16px;font-weight:800}
+.org-note{margin:12px 0 0;text-align:center;font-size:14px;color:var(--mut)}
+.org-note a{color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+@container (max-width:760px){.b-long{display:none}.b-sub{font-size:12px}.bt{font-size:15px}}
+@container (min-width:761px){.org-btn{display:inline-flex}.org-btn+.burger{margin-left:12px}.org-m{display:none}}
+@container (min-width:761px) and (max-width:1180px){.b-long{display:none}}
 #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;z-index:300;background:#141A46;color:#FFFFFF;border:1px solid rgba(227,194,122,.5);padding:12px 18px;border-radius:12px;font:700 14px 'Manrope',sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.35);transition:.25s;pointer-events:none;width:max-content;max-width:calc(100% - 32px);box-sizing:border-box;text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){.burger{animation:none!important}}
 </style></head><body>
 <div class="site">
 <header class="top">
-<a class="brand" href="#" aria-label="Календарь РКИ"><svg class="flogo" viewBox="0 0 132 80" aria-hidden="true"><g font-family="Manrope, Arial, sans-serif" font-weight="800" font-size="30" text-anchor="middle" fill="#141A46">
+<a class="brand" href="#" aria-label="Календарь РКИ — Методический фонд РКИ"><svg class="flogo" viewBox="0 0 132 80" aria-hidden="true"><g font-family="Manrope, Arial, sans-serif" font-weight="800" font-size="30" text-anchor="middle" fill="#141A46">
 <g transform="rotate(-7 26 46)"><rect x="4" y="16" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="26" y="57">Р</text></g>
 <g transform="rotate(7 106 46)"><rect x="84" y="16" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="106" y="57">И</text></g>
-<rect x="44" y="4" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="66" y="45">К</text></g></svg><span class="bt">Календарь<br>РКИ</span></a>
-<nav class="nav" id="nav" aria-label="Меню"><a href="https://rki.center">Методический фонд РКИ</a><a href="#open">Все события</a><a href="#add" data-add>Добавить своё мероприятие</a><a href="#foot-sub">Подписаться на анонсы</a><a href="https://t.me/calendarRKI_bot" target="_blank" rel="noopener">Telegram-бот</a><a href="#share" data-share-site class="nav-share"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8 15.7 6.2 M8.3 13.2 15.7 17.8"/></svg>Поделиться ссылкой с коллегами</a><p class="nav-mail">Есть вопросы? <a href="mailto:GoClass@ya.ru">GoClass@ya.ru</a></p></nav>
+<rect x="44" y="4" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="66" y="45">К</text></g></svg><span class="b-tx"><span class="bt">Методический фонд</span><span class="b-sub"><b>Календарь РКИ</b><span class="b-long"> · сервис для преподавателей русского как иностранного</span></span></span></a>
+<nav class="nav" id="nav" aria-label="Меню"><a href="https://rki.center">Методический фонд РКИ</a><a href="#open">Все события</a><a href="#org" data-org class="nav-org">Организаторам: как это работает<span aria-hidden="true">→</span></a><a href="#add" data-add>Добавить своё мероприятие</a><a href="#foot-sub">Подписаться на анонсы</a><a href="https://t.me/calendarRKI_bot" target="_blank" rel="noopener">Telegram-бот</a><a href="#share" data-share-site class="nav-share"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8 15.7 6.2 M8.3 13.2 15.7 17.8"/></svg>Поделиться ссылкой с коллегами</a><p class="nav-mail">Есть вопросы? <a href="mailto:GoClass@ya.ru">GoClass@ya.ru</a></p></nav>
+<button type="button" class="org-btn" data-org aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5 V19 M5 12 H19"/></svg>Организаторам</button>
 <button type="button" class="burger" aria-label="Меню" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span><b class="bg-t">Меню</b></button>
 </header>
 <section class="hero">
@@ -612,7 +633,7 @@ img,svg{max-width:100%}
 <div class="lock"><h1 aria-label="Календарь РКИ"><span>Календарь</span><svg class="tlogo" viewBox="0 0 132 80" aria-hidden="true"><g font-family="Manrope, Arial, sans-serif" font-weight="800" font-size="30" text-anchor="middle" fill="#141A46">
 <g class="lc lc1"><g transform="rotate(-7 26 46)"><rect x="4" y="16" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="26" y="57">Р</text></g></g>
 <g class="lc lc3"><g transform="rotate(7 106 46)"><rect x="84" y="16" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="106" y="57">И</text></g></g>
-<g class="lc lc2"><rect x="44" y="4" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="66" y="45">К</text></g></g></svg></h1><p class="tag"><span class="d-only">Ходите на интересные мероприятия для преподавателей РКИ и добавляйте свои</span><span class="m-only">Вебинары, после которых хочется на урок</span></p></div>
+<g class="lc lc2"><rect x="44" y="4" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="66" y="45">К</text></g></g></svg></h1><p class="tag"><span class="d-only">Ходите на интересные мероприятия для преподавателей РКИ и добавляйте свои</span><span class="m-only">Вебинары, после которых хочется на урок</span></p><button type="button" class="org-m" data-org aria-haspopup="dialog">Организаторам: как это работает<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg></button></div>
 <div class="tiles">
 <a class="tile t-open" href="#open"><span class="t-k"><span class="t-ic"><i class="live"></i></span>Идёт регистрация</span><span class="t-n">8 событий</span><span class="t-s">Можно записаться <svg class="t-go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg></span></a>
 <a class="tile t-soon" href="#soon"><span class="t-k"><span class="t-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E3C27A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20 C5 15 3 11.5 3 8.5 A4.5 4.5 0 0 1 12 6.5 A4.5 4.5 0 0 1 21 8.5 C21 11.5 19 15 12 20 Z"/></svg></span>Скоро</span><span class="t-n">3 события</span><span class="t-s">Записывайтесь, дата скоро <svg class="t-go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg></span></a>
@@ -783,6 +804,14 @@ img,svg{max-width:100%}
 <div class="m-done" hidden><span class="m-done-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 L10 17 L19 7"/></svg></span><h2></h2><p></p><div class="m-help" hidden><span class="mh-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7 L12 13 L20 7"/></svg></span><div class="mh-x"><b class="mh-t"></b><span><span class="mh-s"></span> <a href="#ask" data-ask>напишите нам</a></span></div></div><a class="btn-more m-ics" hidden download="event.ics"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141A46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10 H20 M9 3 V7 M15 3 V7"/></svg>Добавить в календарь</a><div class="m-extra" hidden><div class="mx mx-sub"><span class="mx-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16 V11 A6 6 0 0 1 18 11 V16 L20 18 H4 Z"/><path d="M10 21 H14"/></svg></span><div class="mx-x"><b>Не пропускайте новые события</b><span>Раз в неделю — подборка того, что открылось для записи.</span></div><button type="button" class="mx-btn" data-mx-sub>Подписаться на этот e-mail</button><span class="mx-ok" hidden>✓ Вы подписаны на анонсы</span></div><div class="mx mx-tg"><span class="mx-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 4.2 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.4-1.5ZM9.6 14.6l8.9-5.6c.4-.3.8-.1.5.2l-7.4 6.7-.3 3.2-1.7-4.5Z"/></svg></span><div class="mx-x"><b>Удобнее в Telegram?</b><span class="mx-tg-s"></span></div><a class="mx-btn mx-tgb" target="_blank" rel="noopener" href="https://t.me/calendarRKI_bot">Открыть бот @calendarRKI_bot</a></div></div><button type="button" class="m-close-l" data-close>Закрыть</button></div>
 </div></div>
 </div>
+<div class="modal org-modal" id="org-modal" hidden><div class="m-back" data-org-close></div>
+<div class="m-box" role="dialog" aria-modal="true" aria-labelledby="org-title">
+<button type="button" class="m-x" data-org-close aria-label="Закрыть"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141A46" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6 L18 18 M18 6 L6 18"/></svg></button>
+<p class="m-kick">Организаторам</p><h2 id="org-title">Вы организатор? Вот как это работает</h2>
+<ol class="org-steps"><li><span class="os-n">1</span><span><b>Добавьте мероприятие.</b> Заполните короткую форму: название, дата, формат, ссылка на регистрацию.</span></li><li><span class="os-n">2</span><span><b>Менеджер поможет с оформлением.</b> Мы свяжемся с вами и подготовим понятную карточку.</span></li><li><span class="os-n">3</span><span><b>Мероприятие появится в календаре.</b> Его увидят преподаватели РКИ.</span></li><li><span class="os-n">4</span><span><b>Рассылка в Telegram-канале и по базам.</b> Мы расскажем о событии подписчикам.</span></li><li><span class="os-n">5</span><span><b>Делитесь с коллегами.</b> У мероприятия есть своя ссылка, которой вы можете поделиться сами.</span></li></ol>
+<button type="button" class="btn-reg org-go" data-add><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5 V19 M5 12 H19"/></svg>Добавить мероприятие</button>
+<p class="org-note">Размещение бесплатное. Вопросы: <a href="mailto:GoClass@ya.ru">GoClass@ya.ru</a></p>
+</div></div>
 <script>const EVENTS={"teatr": {"title": "Театр на уроке РКИ", "st": "open", "day": 18, "mon": 10, "time": "18:00", "place": "Онлайн", "dur": "60 минут"}, "molchuny": {"title": "Как разговорить молчаливую группу", "st": "open", "day": 14, "mon": 10, "time": "18:00", "place": "Онлайн", "dur": "60 минут"}, "mir2026": {"title": "Русский язык в мире — 2026", "st": "open", "day": 22, "mon": 10, "time": "10:00", "place": "Онлайн", "dur": "3 часа"}, "ai": {"title": "Нейросети для преподавателя РКИ", "st": "open", "day": 29, "mon": 10, "time": "18:00", "place": "Онлайн", "dur": "60 минут"}, "glagoly": {"title": "Глаголы движения без боли", "st": "open", "day": 6, "mon": 11, "time": "12:00", "place": "Москва", "dur": "90 минут"}, "trki1": {"title": "Подготовка к ТРКИ-1: разбор субтестов", "st": "open", "day": 20, "mon": 11, "time": "18:00", "place": "Онлайн", "dur": "2 часа"}, "metodika": {"title": "Методика РКИ: новое поколение", "st": "open", "day": 4, "mon": 12, "time": "10:00", "place": "Казань", "dur": "3 дня"}, "novyi-god": {"title": "Новогодний урок: традиции и праздники", "st": "open", "day": 11, "mon": 12, "time": "18:00", "place": "Онлайн", "dur": "60 минут"}, "bilingvy": {"title": "Дети-билингвы: как сохранить русский", "st": "soon", "day": null, "mon": null, "time": null, "place": "Санкт-Петербург", "dur": "2 часа"}, "zvuk-y": {"title": "Звук [ы] за один урок", "st": "soon", "day": null, "mon": null, "time": null, "place": "Онлайн", "dur": "60 минут"}, "pushkin": {"title": "Пушкин на уроке РКИ", "st": "soon", "day": null, "mon": null, "time": null, "place": "Онлайн", "dur": "60 минут"}};
 /* ===== Настройки =====
    ENDPOINT — адрес веб-приложения Google Apps Script (см. README).
@@ -1069,6 +1098,21 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
     if(more) more.addEventListener('click',e=>{ e.preventDefault(); flip(true); });
     back.querySelector('.eb-back').addEventListener('click',()=>flip(false));
   });
+})();
+
+/* --- окно «Организаторам» --- */
+(function () {
+  const om = document.getElementById('org-modal'); if (!om) return;
+  let back = null;
+  function openOrg() { back = document.activeElement; om.hidden = false; document.body.style.overflow = 'hidden'; const x = om.querySelector('.m-x'); if (x) x.focus(); }
+  function closeOrg(restore) { om.hidden = true; document.body.style.overflow = ''; if (restore !== false && back) back.focus(); }
+  document.addEventListener('click', (ev) => {
+    const t = ev.target.closest('[data-org]');
+    if (t) { ev.preventDefault(); const n = document.getElementById('nav'), b = document.querySelector('.burger'); if (n) n.classList.remove('open'); if (b) b.setAttribute('aria-expanded', false); openOrg(); return; }
+    if (ev.target.closest('[data-org-close]')) closeOrg();
+  });
+  om.querySelector('.org-go').addEventListener('click', () => closeOrg(false));
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && !om.hidden) closeOrg(); });
 })();
 </script>
 </body></html>
