@@ -499,16 +499,113 @@ img,svg{max-width:100%}
 .fa-c{font-size:14px;color:#C9CBE6}
 .fa-c a{color:#E3C27A;font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .foot .foot-about+.foot-b{border-top:none;padding-top:0;font-size:13px}
+/* ===== меню, окно успеха, плашки, вопросы ===== */
+@container (min-width:0px){
+.login{display:none!important}
+.burger{display:flex}
+.nav{position:absolute;top:100%;right:16px;left:16px;margin:0;display:none;flex-direction:column;gap:0;padding:8px 18px 16px;background:#161B4D;border:1px solid #2E3470;border-radius:0 0 18px 18px;box-shadow:0 18px 40px rgba(0,0,0,.35);z-index:60}
+.nav.open{display:flex}
+.nav a{padding:13px 2px;border-bottom:1px solid #262B5E;font-size:16px;font-weight:700;color:#E3E4F6}
+.nav a:first-child{color:var(--g)}
+.nav-mail{margin:12px 2px 0;font-size:13px;color:#9EA2CC;font-weight:500}
+.nav .nav-mail a{display:inline;padding:0;border:0;font-size:13px;color:#C9CBE6;text-decoration:underline;text-underline-offset:3px}
+.sec-h{background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);box-shadow:0 6px 16px rgba(0,0,0,.18);padding:8px 12px;border:1px solid rgba(255,255,255,.5)}
+.sec-h h2{font-size:18px}
+.sec-n{height:24px;background:rgba(241,238,231,.75)}
+.m-ics{display:none!important}
+.m-done:has(.m-extra:not([hidden])){gap:8px}
+.m-help{width:100%;box-sizing:border-box;display:flex;align-items:center;gap:12px;margin-top:6px;padding:12px 14px;border-radius:14px;background:#FFF8E8;border:1px solid #F0DDB0;text-align:left}
+.m-help[hidden]{display:none}
+.mh-ic,.mx-ic{flex:none;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.mh-ic{background:#F6E3B4;color:#8C6A22}
+.mh-x,.mx-x{display:flex;flex-direction:column;gap:2px;min-width:0}
+.mh-x b{font-size:15px;color:var(--ink)}
+.mh-x>span{font-size:13.5px;color:var(--mut);line-height:1.4}
+.mh-x a{color:var(--ink);font-weight:800;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.m-extra{width:100%;display:flex;flex-direction:column;gap:10px}
+.m-extra[hidden],.mx[hidden],.mx-btn[hidden],.mx-ok[hidden]{display:none}
+.mx{display:grid;grid-template-columns:38px 1fr;column-gap:12px;row-gap:12px;align-items:center;padding:14px;border-radius:16px;text-align:left}
+.mx-x b{font-size:15px;color:var(--ink)}
+.mx-x span{font-size:13.5px;color:var(--mut);line-height:1.4}
+.mx-btn,.mx .mx-ok{grid-column:1/-1}
+.mx-btn{display:flex;align-items:center;justify-content:center;gap:8px;height:44px;border-radius:12px;border:0;font:800 15px 'Manrope',sans-serif;cursor:pointer;text-decoration:none}
+.mx-sub{background:#F4F1FF;border:1px solid #DED6FF}
+.mx-sub .mx-ic{background:var(--ink);color:var(--g)}
+.mx-sub .mx-btn{background:var(--ink);color:#FFFFFF}
+.mx-tg{background:#EAF6FC;border:1px solid #C6E6F5}
+.mx-tg .mx-ic{background:#229ED9;color:#FFFFFF}
+.mx-tg .mx-btn{background:#229ED9;color:#FFFFFF}
+.mx .mx-ok{text-align:center;font-weight:800;color:#0E7A64;padding:10px 0 2px}
+.m-close-l{margin-top:2px;background:none;border:0;padding:8px 16px;color:var(--mut);font:700 15px 'Manrope',sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.ask{width:100%;max-width:560px;margin:0 auto;text-align:center}
+.ask-t{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 10px;background:none;border:0;padding:6px;color:#C9CBE6;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer}
+.ask-t b{font-weight:600}
+.ask-t span{display:inline-flex;align-items:center;gap:4px;color:var(--g);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.ask-t svg{transition:transform .2s}.ask.open .ask-t svg{transform:rotate(180deg)}
+.ask-f{display:flex;flex-direction:column;gap:10px;margin-top:10px;padding:16px;border-radius:16px;background:#1A1F52;border:1px solid #2E3470;text-align:left}
+.ask-f[hidden],.ask-ok[hidden],.ask-err[hidden]{display:none}
+.af{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#C9CBE6}
+.af em{font-style:normal;font-weight:400;color:#9EA2CC}
+.af input,.af textarea{width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1px solid #2E3470;background:#FFFFFF;color:var(--ink);font-family:inherit;font-size:15px;resize:vertical}
+.af input{height:42px}
+.ask-btn{height:42px;border:0;border-radius:10px;background:var(--g);color:var(--ink);font-weight:800;font-size:15px;font-family:inherit;cursor:pointer}
+.ask-btn:disabled{opacity:.6}
+.ask-err{margin:0;font-size:13px;color:#FF9C8F}
+.ask-note{margin:0;font-size:12px;color:#9EA2CC}.ask-note a{color:#C9CBE6;text-decoration:underline}
+.ask-ok{margin:10px 0 0;font-size:14px;font-weight:700;color:#7CF0D3}
+}
+@container (min-width:761px){
+.nav{left:auto;right:64px;width:330px;border-radius:0 0 18px 18px}
+.sec-h{padding:8px 16px;background:rgba(255,255,255,.8)}
+.sec-h .sec-c{color:#3E4366}
+.sec-h h2{font-size:24px}
+}
+@container (min-width:761px) and (max-width:1180px){.nav{right:32px}}
+/* ===== бургер и галочка ===== */
+@container (min-width:0px){
+.burger{position:relative;width:46px;height:46px;padding:0;border-radius:14px;border:1.5px solid rgba(227,194,122,.45);background:rgba(255,255,255,.05);display:flex;cursor:pointer;transition:border-color .2s,background .2s}
+.burger:hover,.burger[aria-expanded="true"]{border-color:var(--g);background:rgba(227,194,122,.1)}
+.burger span{position:absolute;left:50%;width:20px;height:2.2px;margin-left:-10px;background:#FFFFFF;border-radius:2px}
+.burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:21px;width:14px;margin-left:-4px;background:var(--g)}.burger span:nth-child(3){top:27px}
+.m-done-ic{position:relative;width:76px;height:76px;background:linear-gradient(145deg,#2BD4A4 0%,#14A383 55%,#0E8A6E 100%);box-shadow:0 0 0 8px rgba(22,160,133,.12),0 0 0 16px rgba(22,160,133,.06),0 12px 26px rgba(14,138,110,.35);animation:okpop .5s cubic-bezier(.2,1.4,.4,1) both;margin:8px 0 6px}
+.m-done-ic svg{width:34px;height:34px}
+.m-done-ic svg path{stroke-dasharray:24;stroke-dashoffset:24;animation:okdraw .45s .25s ease-out forwards}
+@keyframes okpop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes okdraw{to{stroke-dashoffset:0}}
+}
+@container (min-width:761px){
+.burger{width:auto;padding:0 18px 0 46px;gap:0;font:700 15px 'Manrope',sans-serif;color:#FFFFFF}
+.burger::after{content:'Меню'}
+.burger span{left:16px;margin-left:0}.burger span:nth-child(2){margin-left:0}
+}
+/* ===== меню-таблетка, поделиться ===== */
+@container (min-width:0px){
+.burger,.burger:hover{width:auto;height:44px;padding:0 16px 0 44px;border-radius:999px;border:1.5px solid rgba(227,194,122,.65);background:linear-gradient(110deg,#1E2463 0%,#2A3180 40%,#5056B0 50%,#2A3180 60%,#1E2463 100%);background-size:250% 100%;background-position:100% 0;color:#FFFFFF;overflow:hidden}
+.burger:not(.seen){animation:shine 3.2s ease-in-out .8s 3,ring 3.2s ease-out .8s 3}
+.burger span{left:16px;margin-left:0}.burger span:nth-child(2){margin-left:0}
+.burger::after{content:none}
+.bg-t{font:800 15px 'Manrope',sans-serif}
+.burger[aria-expanded="true"]{border-color:var(--g);background-position:0 0}
+@keyframes shine{0%,40%{background-position:100% 0}80%,100%{background-position:0 0}}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(227,194,122,.55)}60%{box-shadow:0 0 0 12px rgba(227,194,122,0)}100%{box-shadow:0 0 0 0 rgba(227,194,122,0)}}
+.nav a.nav-share{display:flex;align-items:center;gap:10px;color:var(--g);border-bottom:0}
+.ev-share{flex:none;width:52px;align-self:stretch;min-height:48px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1.5px solid rgba(227,194,122,.6);background:rgba(227,194,122,.12);color:var(--g);cursor:pointer}
+.ev-share:hover{background:rgba(227,194,122,.22)}
+.ev-hl{outline:3px solid var(--g);outline-offset:4px;transition:outline-color .6s}
+.ev-act .btn-reg.done{white-space:nowrap;padding-left:10px;padding-right:10px;min-width:0}
+}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;z-index:300;background:#141A46;color:#FFFFFF;border:1px solid rgba(227,194,122,.5);padding:12px 18px;border-radius:12px;font:700 14px 'Manrope',sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.35);transition:.25s;pointer-events:none;width:max-content;max-width:calc(100% - 32px);box-sizing:border-box;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.burger{animation:none!important}}
 </style></head><body>
 <div class="site">
 <header class="top">
-<a class="brand" href="#" aria-label="Методический фонд РКИ"><svg class="flogo" viewBox="0 0 132 80" aria-hidden="true"><g font-family="Manrope, Arial, sans-serif" font-weight="800" font-size="30" text-anchor="middle" fill="#141A46">
+<a class="brand" href="#" aria-label="Календарь РКИ"><svg class="flogo" viewBox="0 0 132 80" aria-hidden="true"><g font-family="Manrope, Arial, sans-serif" font-weight="800" font-size="30" text-anchor="middle" fill="#141A46">
 <g transform="rotate(-7 26 46)"><rect x="4" y="16" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="26" y="57">Р</text></g>
 <g transform="rotate(7 106 46)"><rect x="84" y="16" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="106" y="57">И</text></g>
-<rect x="44" y="4" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="66" y="45">К</text></g></svg><span class="bt">Методический<br>фонд</span></a>
-<nav class="nav" id="nav" aria-label="Разделы сайта"><a href="#">База РКИ</a><a href="#">Проекты</a><a href="#" aria-current="page">Календарь РКИ</a><a href="#">Сообщество</a><a href="#">О фонде</a></nav>
-<a class="login" href="#">Войти</a>
-<button type="button" class="burger" aria-label="Меню" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+<rect x="44" y="4" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="66" y="45">К</text></g></svg><span class="bt">Календарь<br>РКИ</span></a>
+<nav class="nav" id="nav" aria-label="Меню"><a href="https://rki.center">Методический фонд РКИ</a><a href="#open">Все события</a><a href="#add" data-add>Добавить своё мероприятие</a><a href="#foot-sub">Подписаться на анонсы</a><a href="https://t.me/calendarRKI_bot" target="_blank" rel="noopener">Telegram-бот</a><a href="#share" data-share-site class="nav-share"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8 15.7 6.2 M8.3 13.2 15.7 17.8"/></svg>Поделиться ссылкой с коллегами</a><p class="nav-mail">Есть вопросы? <a href="mailto:GoClass@ya.ru">GoClass@ya.ru</a></p></nav>
+<button type="button" class="burger" aria-label="Меню" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span><b class="bg-t">Меню</b></button>
 </header>
 <section class="hero">
 <div class="hero-l">
@@ -625,7 +722,7 @@ img,svg{max-width:100%}
 <p class="empty" hidden>По этим фильтрам событий нет. Сбросьте фильтр или подпишитесь — сообщим о новых.</p>
 </section>
 <section id="soon" class="sec">
-<div class="sec-h"><i class="dot d-soon"></i><h2>Скоро</h2><span class="sec-n" aria-live="polite"></span><span class="sec-c">записывайтесь — дата уточняется</span></div>
+<div class="sec-h"><i class="dot d-soon"></i><h2>Скоро</h2><span class="sec-n" aria-live="polite"></span><span class="sec-c" data-count="soon"></span></div>
 <div class="grid"><article class="ev" data-id="bilingvy" data-st="soon" data-online="0" data-paid="0" data-mon="0">
 <div class="ev-cov"><svg viewBox="0 0 400 192" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" aria-hidden="true"><rect width="400" height="192" fill="#0E1937"/><path d="M40 33 L41.96 38.04 L47 40 L41.96 41.96 L40 47 L38.04 41.96 L33 40 L38.04 38.04 Z" fill="#E3C27A"/><path d="M352 25 L353.4 28.6 L357 30 L353.4 31.4 L352 35 L350.6 31.4 L347 30 L350.6 28.6 Z" fill="#E3C27A"/><path d="M370 144 L371.68 148.32 L376 150 L371.68 151.68 L370 156 L368.32 151.68 L364 150 L368.32 148.32 Z" fill="#E3C27A"/><path d="M70 155 L71.4 158.6 L75 160 L71.4 161.4 L70 165 L68.6 161.4 L65 160 L68.6 158.6 Z" fill="#F6EEDB"/><path d="M300 166 L301.12 168.88 L304 170 L301.12 171.12 L300 174 L298.88 171.12 L296 170 L298.88 168.88 Z" fill="#E3C27A"/><g transform="translate(40 112) scale(1 1)" fill="none" stroke="#C9A04A" stroke-width="2.2" stroke-linecap="round"><path d="M0 60 C6 40 10 20 22 0"/><path d="M6 44 C-6 40 -10 32 -8 26 C2 28 6 36 6 44 Z" fill="#C9A04A" stroke="none"/><path d="M12 28 C2 22 0 14 2 8 C10 12 13 20 12 28 Z" fill="#C9A04A" stroke="none"/><path d="M10 40 C22 38 28 30 28 24 C18 26 12 32 10 40 Z" fill="#C9A04A" stroke="none"/></g><g transform="translate(360 112) scale(-1 1)" fill="none" stroke="#C9A04A" stroke-width="2.2" stroke-linecap="round"><path d="M0 60 C6 40 10 20 22 0"/><path d="M6 44 C-6 40 -10 32 -8 26 C2 28 6 36 6 44 Z" fill="#C9A04A" stroke="none"/><path d="M12 28 C2 22 0 14 2 8 C10 12 13 20 12 28 Z" fill="#C9A04A" stroke="none"/><path d="M10 40 C22 38 28 30 28 24 C18 26 12 32 10 40 Z" fill="#C9A04A" stroke="none"/></g><path d="M140 96 L200 50 L260 96 V156 H140 Z" fill="#F6EEDB"/><path d="M128 100 L200 42 L272 100" fill="none" stroke="#E3C27A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M200 140 L178 118 A13 13 0 0 1 200 102 A13 13 0 0 1 222 118 Z" fill="#E4553F"/><rect x="266" y="48" width="64" height="34" rx="17.0" fill="#E3C27A"/><path d="M274.0 80 L270.0 96 L290.0 80 Z" fill="#E3C27A"/><text x="298.0" y="69.68" text-anchor="middle" font-family="Manrope, Arial, sans-serif" font-size="13" font-weight="800" fill="#0E1937">Мама!</text><rect x="70" y="52" width="64" height="34" rx="17.0" fill="#F6EEDB"/><path d="M110.0 84 L130.0 100 L126.0 84 Z" fill="#F6EEDB"/><text x="102.0" y="73.68" text-anchor="middle" font-family="Manrope, Arial, sans-serif" font-size="13" font-weight="800" fill="#0E1937">Mom!</text></svg><span class="chip chip-soon">Скоро</span></div>
 <div class="ev-body">
@@ -661,10 +758,11 @@ img,svg{max-width:100%}
 </section>
 </main>
 <footer class="foot">
-<div class="foot-sub"><span class="fs-bell" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#141A46" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16 V11 A6 6 0 0 1 18 11 V16 L20 18 H4 Z"/><path d="M10 21 H14"/></svg></span><div><h2><span class="d-only">Не пропустите регистрацию</span><span class="m-only">Не пропустите главное</span></h2><p><span class="d-only">Напишем, когда откроется запись на новое событие. Раз в неделю, без спама.</span><span class="m-only">Напишем раз в неделю о главном</span></p><ul class="fs-why"><li><svg width="14" height="14" viewBox="0 0 24 24" fill="#E3C27A" aria-hidden="true"><path d="M13 2 L4 14 H11 L10 22 L20 9 H13 Z"/></svg>Первыми узнаете об открытии регистрации</li><li><svg width="14" height="14" viewBox="0 0 24 24" fill="#E3C27A" aria-hidden="true"><path d="M13 2 L4 14 H11 L10 22 L20 9 H13 Z"/></svg>Только важные события, без спама</li></ul></div>
+<div class="foot-sub" id="foot-sub"><span class="fs-bell" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#141A46" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16 V11 A6 6 0 0 1 18 11 V16 L20 18 H4 Z"/><path d="M10 21 H14"/></svg></span><div><h2><span class="d-only">Не пропустите регистрацию</span><span class="m-only">Не пропустите главное</span></h2><p><span class="d-only">Напишем, когда откроется запись на новое событие. Раз в неделю, без спама.</span><span class="m-only">Напишем раз в неделю о главном</span></p><ul class="fs-why"><li><svg width="14" height="14" viewBox="0 0 24 24" fill="#E3C27A" aria-hidden="true"><path d="M13 2 L4 14 H11 L10 22 L20 9 H13 Z"/></svg>Первыми узнаете об открытии регистрации</li><li><svg width="14" height="14" viewBox="0 0 24 24" fill="#E3C27A" aria-hidden="true"><path d="M13 2 L4 14 H11 L10 22 L20 9 H13 Z"/></svg>Только важные события, без спама</li></ul></div>
 <form class="sub sub-light" data-sub novalidate><label class="sr" for="sub-email2">E-mail для подписки</label><input id="sub-email2" type="email" name="email" required placeholder="Ваш e-mail"><button type="submit">Подписаться</button></form>
 <p class="sub-done" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16A085" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 L10 17 L19 7"/></svg> Готово! Будем писать обо всех мероприятиях</p></div>
 <div class="socials"><p>Мы в соцсетях — там анонсы и записи эфиров</p><div class="soc-row"><a href="#" aria-label="Telegram" class="s-tg"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 4.2 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.4-1.5ZM9.6 14.6l8.9-5.6c.4-.3.8-.1.5.2l-7.4 6.7-.3 3.2-1.7-4.5Z"/></svg>Telegram</a><a href="#" aria-label="ВКонтакте" class="s-vk"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.8 18C6.4 18 2.8 13.6 2.6 6.3h3.2c.1 5.4 2.5 7.6 4.3 8.1V6.3h3v4.6c1.8-.2 3.7-2.3 4.4-4.6h3c-.5 2.8-2.6 4.9-4 5.8 1.5.7 3.9 2.6 4.8 5.9h-3.3c-.7-2.2-2.5-3.9-4.9-4.2V18h-.3Z"/></svg>ВКонтакте</a><a href="#" aria-label="Facebook" class="s-fb"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1Z"/></svg>Facebook</a></div></div>
+<div class="ask" id="ask"><button type="button" class="ask-t" aria-expanded="false" aria-controls="ask-f"><b>Есть вопрос или не пришло письмо?</b><span>Написать нам <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9 L12 15 L18 9"/></svg></span></button><form class="ask-f" id="ask-f" hidden novalidate><label class="af"><span>E-mail для ответа</span><input name="email" type="email" required autocomplete="email" placeholder="you@mail.ru"></label><label class="af"><span>Ваш вопрос</span><textarea name="question" required rows="3"></textarea></label><label class="af"><span>Название события <em>— если вопрос о нём</em></span><input name="event" type="text"></label><p class="ask-err" hidden></p><button type="submit" class="ask-btn">Отправить</button><p class="ask-note">Отправляя вопрос, вы соглашаетесь с <a href="#">политикой обработки персональных данных</a>.</p></form><p class="ask-ok" hidden>✓ Спасибо! Ответим на почту в ближайшее время.</p></div>
 <div class="foot-about"><div class="fa-brand"><svg class="flogo fa-logo" viewBox="0 0 132 80" aria-hidden="true"><g font-family="Manrope, Arial, sans-serif" font-weight="800" font-size="30" text-anchor="middle" fill="#141A46">
 <g transform="rotate(-7 26 46)"><rect x="4" y="16" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="26" y="57">Р</text></g>
 <g transform="rotate(7 106 46)"><rect x="84" y="16" width="44" height="60" rx="7" fill="#EEBC58" stroke="#10143A" stroke-width="3"/><text x="106" y="57">И</text></g>
@@ -682,7 +780,7 @@ img,svg{max-width:100%}
 <div class="m-form"><p class="m-kick"></p><h2 id="m-title"></h2><p class="m-sub"></p>
 <form novalidate><div class="m-fields"></div><label class="m-ok"><input type="checkbox" name="consent" required><span>Согласен(на) на обработку персональных данных по <a href="#">политике фонда</a></span></label>
 <p class="m-err" role="alert" hidden></p><button type="submit" class="btn-reg m-submit"></button></form></div>
-<div class="m-done" hidden><span class="m-done-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 L10 17 L19 7"/></svg></span><h2></h2><p></p><a class="btn-more m-ics" hidden download="event.ics"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141A46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10 H20 M9 3 V7 M15 3 V7"/></svg>Добавить в календарь</a><button type="button" class="btn-reg" data-close>Готово</button></div>
+<div class="m-done" hidden><span class="m-done-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 L10 17 L19 7"/></svg></span><h2></h2><p></p><div class="m-help" hidden><span class="mh-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7 L12 13 L20 7"/></svg></span><div class="mh-x"><b class="mh-t"></b><span><span class="mh-s"></span> <a href="#ask" data-ask>напишите нам</a></span></div></div><a class="btn-more m-ics" hidden download="event.ics"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141A46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10 H20 M9 3 V7 M15 3 V7"/></svg>Добавить в календарь</a><div class="m-extra" hidden><div class="mx mx-sub"><span class="mx-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16 V11 A6 6 0 0 1 18 11 V16 L20 18 H4 Z"/><path d="M10 21 H14"/></svg></span><div class="mx-x"><b>Не пропускайте новые события</b><span>Раз в неделю — подборка того, что открылось для записи.</span></div><button type="button" class="mx-btn" data-mx-sub>Подписаться на этот e-mail</button><span class="mx-ok" hidden>✓ Вы подписаны на анонсы</span></div><div class="mx mx-tg"><span class="mx-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 4.2 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.4-1.5ZM9.6 14.6l8.9-5.6c.4-.3.8-.1.5.2l-7.4 6.7-.3 3.2-1.7-4.5Z"/></svg></span><div class="mx-x"><b>Удобнее в Telegram?</b><span class="mx-tg-s"></span></div><a class="mx-btn mx-tgb" target="_blank" rel="noopener" href="https://t.me/calendarRKI_bot">Открыть бот @calendarRKI_bot</a></div></div><button type="button" class="m-close-l" data-close>Закрыть</button></div>
 </div></div>
 </div>
 <script>const EVENTS={"teatr": {"title": "Театр на уроке РКИ", "st": "open", "day": 18, "mon": 10, "time": "18:00", "place": "Онлайн", "dur": "60 минут"}, "molchuny": {"title": "Как разговорить молчаливую группу", "st": "open", "day": 14, "mon": 10, "time": "18:00", "place": "Онлайн", "dur": "60 минут"}, "mir2026": {"title": "Русский язык в мире — 2026", "st": "open", "day": 22, "mon": 10, "time": "10:00", "place": "Онлайн", "dur": "3 часа"}, "ai": {"title": "Нейросети для преподавателя РКИ", "st": "open", "day": 29, "mon": 10, "time": "18:00", "place": "Онлайн", "dur": "60 минут"}, "glagoly": {"title": "Глаголы движения без боли", "st": "open", "day": 6, "mon": 11, "time": "12:00", "place": "Москва", "dur": "90 минут"}, "trki1": {"title": "Подготовка к ТРКИ-1: разбор субтестов", "st": "open", "day": 20, "mon": 11, "time": "18:00", "place": "Онлайн", "dur": "2 часа"}, "metodika": {"title": "Методика РКИ: новое поколение", "st": "open", "day": 4, "mon": 12, "time": "10:00", "place": "Казань", "dur": "3 дня"}, "novyi-god": {"title": "Новогодний урок: традиции и праздники", "st": "open", "day": 11, "mon": 12, "time": "18:00", "place": "Онлайн", "dur": "60 минут"}, "bilingvy": {"title": "Дети-билингвы: как сохранить русский", "st": "soon", "day": null, "mon": null, "time": null, "place": "Санкт-Петербург", "dur": "2 часа"}, "zvuk-y": {"title": "Звук [ы] за один урок", "st": "soon", "day": null, "mon": null, "time": null, "place": "Онлайн", "dur": "60 минут"}, "pushkin": {"title": "Пушкин на уроке РКИ", "st": "soon", "day": null, "mon": null, "time": null, "place": "Онлайн", "dur": "60 минут"}};
@@ -712,6 +810,8 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
   /* --- меню на телефоне --- */
   const burger = $('.burger'), nav = $('#nav');
   burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+  nav.addEventListener('click', (ev) => { const a = ev.target.closest('a'); if (!a) return; if (a.hasAttribute('data-add')) ev.preventDefault(); nav.classList.remove('open'); burger.setAttribute('aria-expanded', false); });
+  document.addEventListener('click', (ev) => { if (nav.classList.contains('open') && !ev.target.closest('#nav,.burger')) { nav.classList.remove('open'); burger.setAttribute('aria-expanded', false); } });
 
   /* --- фильтры --- */
   const F = { on: false, off: false, free: false, paid: false };
@@ -778,7 +878,7 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
     fields.innerHTML = cfg.f.map((k) => FLD[k]).join('');
     $('.m-submit', modal).textContent = cfg.btn;
     form.reset(); err.hidden = true;
-    $('.m-form', modal).hidden = false; $('.m-done', modal).hidden = true;
+    $('.m-form', modal).hidden = false; $('.m-done', modal).hidden = true; $('.m-extra', modal).hidden = true; $('.m-help', modal).hidden = true;
     modal.hidden = false; document.body.style.overflow = 'hidden';
     setTimeout(() => { const f = $('input,textarea', fields); if (f) f.focus(); }, 30);
   }
@@ -817,6 +917,19 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
       $('.m-done h2', modal).textContent = cfg.doneT; $('.m-done p', modal).textContent = cfg.doneP;
       const link = $('.m-ics', modal);
       if (mode === 'register' && evId && EVENTS[evId].day) { link.href = ics(EVENTS[evId]); link.hidden = false; } else link.hidden = true;
+      if ((mode === 'register' || mode === 'want') && evId) {
+        const reg = mode === 'register';
+        $('.mh-t', modal).textContent = reg ? 'Письмо не пришло?' : 'Есть вопрос?';
+        $('.mh-s', modal).textContent = reg ? 'Проверьте папку «Спам» или' : 'Мы на связи —';
+        $('.m-help', modal).hidden = false;
+        lastEmail = (data.email || '').trim();
+        const subbed = !!store.get('rki-sub');
+        $('.mx-sub', modal).hidden = subbed || !lastEmail;
+        $('[data-mx-sub]', modal).hidden = false; $('[data-mx-sub]', modal).disabled = false; $('.mx-ok', modal).hidden = true;
+        $('.mx-tgb', modal).href = 'https://t.me/calendarRKI_bot?start=ev_' + evId;
+        $('.mx-tg-s', modal).textContent = reg ? 'Бот напомнит о событии и пришлёт ссылку на эфир.' : 'Бот сообщит дату, как только мы её назначим.';
+        $('.m-extra', modal).hidden = false;
+      }
       $('.m-form', modal).hidden = true; $('.m-done', modal).hidden = false;
       if (mode === 'subscribe') { store.set('rki-sub', true); subDone(); }
       if (evId) { const done = store.get('rki-done') || {}; done[evId] = mode; store.set('rki-done', done); markDone(evId, mode, true); }
@@ -824,8 +937,52 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
     btn.disabled = false;
   });
 
+  let lastEmail = '';
+  $('[data-mx-sub]', modal).addEventListener('click', async (ev) => {
+    const b = ev.currentTarget; if (!lastEmail) return; b.disabled = true;
+    try { await send('subscribe', { email: lastEmail, source: 'after-registration' }); store.set('rki-sub', true); subDone(); $$('form[data-sub]').forEach((x) => { x.hidden = true; x.nextElementSibling.hidden = false; }); b.hidden = true; $('.mx-ok', modal).hidden = false; }
+    catch (e) { b.disabled = false; b.textContent = 'Не получилось — попробовать ещё раз'; }
+  });
+  document.addEventListener('click', (ev) => {
+    const a = ev.target.closest('[data-ask]'); if (!a) return; ev.preventDefault();
+    if (!modal.hidden) close();
+    const box = document.getElementById('ask'); box.classList.add('open'); $('.ask-t', box).setAttribute('aria-expanded', true); $('.ask-f', box).hidden = false;
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => { const i = $('input', box); if (i) i.focus({ preventScroll: true }); }, 450);
+  });
+  (function () {
+    const box = document.getElementById('ask'); if (!box) return;
+    const t = $('.ask-t', box), f = $('.ask-f', box), er = $('.ask-err', box), ok = $('.ask-ok', box);
+    t.addEventListener('click', () => { const o = f.hidden; f.hidden = !o; ok.hidden = true; if (o) f.hidden = false; box.classList.toggle('open', o); t.setAttribute('aria-expanded', o); if (o) $('input', f).focus(); });
+    f.addEventListener('submit', async (ev) => {
+      ev.preventDefault(); er.hidden = true;
+      const em = f.email.value.trim(), q = f.question.value.trim();
+      if (!emailOk(em)) { er.textContent = 'Проверьте e-mail: в нём должна быть @ и домен.'; er.hidden = false; f.email.focus(); return; }
+      if (!q) { er.textContent = 'Напишите, пожалуйста, ваш вопрос.'; er.hidden = false; f.question.focus(); return; }
+      const b = $('button[type=submit]', f); b.disabled = true;
+      try { await send('question', { email: em, question: q, event: f.event.value.trim() }); f.reset(); f.hidden = true; ok.hidden = false; }
+      catch (e) { er.textContent = 'Не получилось отправить. Напишите нам на GoClass@ya.ru'; er.hidden = false; }
+      b.disabled = false;
+    });
+  })();
+
+  const toast = (t) => { let el = document.getElementById('toast'); if (!el) { el = document.createElement('div'); el.id = 'toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); } el.textContent = t; el.classList.add('on'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('on'), 2400); };
+  async function share(title, text, url) {
+    if (navigator.share) { try { await navigator.share({ title, text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(url); toast('Ссылка скопирована — отправьте её коллегам'); }
+    catch (e) { prompt('Скопируйте ссылку:', url); }
+  }
+  const siteUrl = () => location.origin + location.pathname;
+  document.addEventListener('click', (ev) => {
+    const a = ev.target.closest('[data-share-site],[data-share-ev]'); if (!a) return; ev.preventDefault();
+    if (a.hasAttribute('data-share-site')) share('Календарь РКИ', 'Календарь РКИ — образовательные события для преподавателей РКИ', siteUrl());
+    else { const id = a.dataset.shareEv, e = EVENTS[id]; share(e.title, 'Я записался(-ась) на «' + e.title + '» в Календаре РКИ. Присоединяйтесь!', siteUrl() + '#' + id); }
+  });
+  (function () { const id = decodeURIComponent(location.hash.slice(1)); const c = id && document.querySelector('.ev[data-id="' + id + '"]'); if (c) setTimeout(() => { c.scrollIntoView({ block: 'center' }); c.classList.add('ev-hl'); setTimeout(() => c.classList.remove('ev-hl'), 2600); }, 400); })();
+  try { if (localStorage.getItem('rki-menu-seen')) burger.classList.add('seen'); } catch (e) {}
+  burger.addEventListener('click', () => { burger.classList.add('seen'); try { localStorage.setItem('rki-menu-seen', '1'); } catch (e) {} });
+
   function markDone(id, m, bump) {
-    $$('[data-reg="' + id + '"],[data-want="' + id + '"]').forEach((b) => { b.classList.add('done'); b.disabled = true; b.textContent = m === 'want' ? '✓ Сообщим о дате' : '✓ Вы записаны'; });
+    $$('[data-reg="' + id + '"],[data-want="' + id + '"]').forEach((b) => { b.classList.add('done'); b.disabled = true; b.textContent = m === 'want' ? '✓ Сообщим о дате' : '✓ Вы записаны'; if (!b.nextElementSibling || !b.nextElementSibling.matches('.ev-share')) b.insertAdjacentHTML('afterend', '<button type="button" class="ev-share" data-share-ev="' + id + '" aria-label="Поделиться с коллегами" title="Поделиться с коллегами"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"18\" cy=\"5\" r=\"2.6\"/><circle cx=\"6\" cy=\"12\" r=\"2.6\"/><circle cx=\"18\" cy=\"19\" r=\"2.6\"/><path d=\"M8.3 10.8 15.7 6.2 M8.3 13.2 15.7 17.8\"/></svg></button>'); });
     if (bump) { const n = $('.ev[data-id="' + id + '"] [data-n]'); if (n) n.textContent = String(+n.textContent + (n.hasAttribute('data-dec') ? -1 : 1)); }
   }
   const done = store.get('rki-done') || {}; Object.keys(done).forEach((id) => markDone(id, done[id], false));
