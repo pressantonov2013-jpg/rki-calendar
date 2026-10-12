@@ -677,6 +677,14 @@ img,svg{max-width:100%}
 .feat .fs .fs-m{margin:0;gap:0;font-size:14px;font-weight:600;color:#F1DCA6}
 .feat .fs .fs-m svg{display:none}
 .feat .fs .fs-m span+span::before{content:"·";margin:0 8px;color:#8C90BE}
+.fs .ev-back{display:none}
+.fs.flipped>:not(.ev-back){display:none!important}
+.fs.flipped>.ev-back{display:flex;flex-direction:column;gap:12px;animation:fadeIn .25s ease}
+.eb-sp{display:flex;align-items:center;gap:12px;margin-top:6px;padding-top:14px;border-top:1px solid rgba(255,255,255,.2)}
+.eb-sp .av{width:48px;height:48px;border:2px solid rgba(227,194,122,.6)}
+.eb-sp>span{display:flex;flex-direction:column;gap:2px;min-width:0}
+.eb-sp b{font-family:'PT Serif',Georgia,serif;font-size:16px;font-weight:700;color:#FFFFFF}
+.eb-sp small{font-size:13.5px;line-height:1.35;color:#A9ADD6}
 </style></head><body>
 <div class="site">
 <header class="top">
@@ -1105,7 +1113,7 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
   const show=(n,smooth)=>{ i=(n+N)%N; t0=performance.now(); tr.scrollTo({left:tr.children[i].offsetLeft-tr.offsetLeft,behavior:smooth?'smooth':'auto'}); };
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   function tick(now){
-    if(tr.offsetParent && !paused){ const k=Math.min(1,(now-t0)/DUR);
+    if(tr.offsetParent && tr.querySelector('.flipped')){ t0=now; } else if(tr.offsetParent && !paused){ const k=Math.min(1,(now-t0)/DUR);
       bars.forEach((b,j)=>{ b.style.width=(j<i?100:j===i?k*100:0)+'%'; });
       if(k>=1 && !reduce) show(i+1,true); }
     requestAnimationFrame(tick);
@@ -1159,13 +1167,29 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
     const ben=ev.querySelector('.ev-ben'), meta=ev.querySelector('.ev-meta');
     const reg=ev.querySelector('.ev-act .btn-reg'), more=ev.querySelector('.ev-act .btn-more');
     const back=document.createElement('div'); back.className='ev-back';
-    back.innerHTML='<p class="eb-k">О событии</p><h4></h4><p class="eb-d"></p>'+(ben?ben.outerHTML:'')+'<p class="eb-m"></p><div class="eb-act"><button type="button" class="btn-more eb-back">← Назад</button></div>';
-    back.querySelector('h4').textContent=t; back.querySelector('.eb-d').innerHTML=d;
+    back.innerHTML='<p class="eb-k">О событии</p><p class="eb-d"></p>'+(ben?ben.outerHTML:'')+'<p class="eb-m"></p><div class="eb-act"><button type="button" class="btn-more eb-back">← Назад</button></div>';
+    back.querySelector('.eb-d').innerHTML=d;
     const full=ev.querySelector('.ev-full'); if(full){ const ed=back.querySelector('.eb-d'); ed.className='eb-d eb-full'; const bl=back.querySelector(':scope>.ev-ben'); if(bl) bl.remove(); ed.outerHTML='<div class="eb-d eb-full">'+full.innerHTML+'</div>'; }
+    const sp=ev.querySelector('.ev-sp');
+    if(sp){ const im=sp.querySelector('img'), nm=sp.querySelector('.sp-n'), rl=sp.querySelector('.sp-r');
+      const box=document.createElement('div'); box.className='eb-sp';
+      if(im){ const a=document.createElement('img'); a.className='av'; a.alt=''; a.src=im.getAttribute('src'); box.appendChild(a); }
+      const tx=document.createElement('span'); const b=document.createElement('b'); b.textContent=nm?nm.textContent:''; const sm=document.createElement('small'); sm.textContent=rl?rl.textContent:''; tx.append(b,sm); box.appendChild(tx);
+      back.insertBefore(box,back.querySelector('.eb-m')); }
     back.querySelector('.eb-m').textContent=[...meta.children].map(x=>x.textContent.trim()).filter(Boolean).join(' · ');
     if(reg) back.querySelector('.eb-act').appendChild(reg.cloneNode(true));
     body.appendChild(back);
     const flip=(on)=>{ ev.classList.add('turning'); setTimeout(()=>{ ev.classList.toggle('flipped',on); ev.classList.remove('turning'); if(!on) ev.scrollIntoView({block:'nearest',behavior:'smooth'}); },220); };
+    if(more) more.addEventListener('click',e=>{ e.preventDefault(); flip(true); });
+    back.querySelector('.eb-back').addEventListener('click',()=>flip(false));
+  });
+  /* «Главные события»: «Подробнее» переворачивает слайд — тот же оборот, что у карточки в списке */
+  document.querySelectorAll('.feat .fs').forEach(fs=>{
+    const r=fs.querySelector('[data-reg]'); if(!r) return;
+    const src=document.querySelector('.grid>.ev[data-id="'+r.dataset.reg+'"] .ev-back'); if(!src) return;
+    const back=src.cloneNode(true); fs.appendChild(back);
+    const flip=on=>{ fs.classList.toggle('flipped',on); };
+    const more=fs.querySelector('.fs-act .btn-more');
     if(more) more.addEventListener('click',e=>{ e.preventDefault(); flip(true); });
     back.querySelector('.eb-back').addEventListener('click',()=>flip(false));
   });
