@@ -1268,6 +1268,7 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
     const data = Object.fromEntries(new FormData(form).entries());
     delete data.consent; data.consent = true;
     if (evId) { data.eventId = evId; data.eventTitle = EVENTS[evId].title; }
+    if (mode === 'register' && evId && EVENTS[evId].day) { const ev0 = EVENTS[evId]; data.eventDate = ev0.day + ' ' + MGEN[ev0.mon]; data.eventTime = ev0.time + ' мск'; data.eventWhen = ev0.day + ' ' + MGEN[ev0.mon] + ', ' + ev0.time + ' мск · ' + ev0.place.toLowerCase(); data.askUrl = 'https://calendar.rki.center/?ask=' + evId; }
     if (mode === 'question') { data.event = data.eventTitle || ''; data.email = data.email || ''; data.source = 'event-questions'; }
     const btn = $('.m-submit', modal); btn.disabled = true;
     try {
