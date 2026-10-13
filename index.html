@@ -891,6 +891,46 @@ img,svg{max-width:100%}
 
 .nav .nav-x b{font:800 13px 'Manrope',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#E3C27A}
 .nav .nav-x button{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(227,194,122,.65);background:rgba(227,194,122,.1);color:#E3C27A;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+
+/* ===== окно «Вы записаны» v2 ===== */
+.m-reg[hidden]{display:none}
+.m-box.dark{background:linear-gradient(165deg,#1B2160 0%,#121648 100%);border:1.5px solid #E3C27A;box-shadow:0 0 0 5px rgba(227,194,122,.16),0 24px 50px rgba(3,5,30,.7);color:#FFFFFF;padding-top:40px}
+@container (min-width:0px){}
+.m-box.dark .m-x{border:1.5px solid rgba(227,194,122,.65);background:rgba(227,194,122,.1)}
+.m-box.dark .m-x svg{stroke:#E3C27A}
+.m-reg{display:flex;flex-direction:column;font-family:'Manrope',sans-serif}
+.mr-head{display:flex;flex-direction:column;align-items:center;text-align:center}
+.mr-ck{width:76px;height:76px;display:grid;place-items:center;border-radius:50%;background:#1FB894;box-shadow:0 0 0 9px rgba(61,214,179,.18)}
+.m-reg h2{margin:24px 0 0;padding:0;font-size:36px;line-height:1.1;font-weight:800;color:#FFFFFF}
+.mr-ev{margin:10px 0 0;font-size:16px;line-height:1.45;color:#D6D8F0}.mr-ev b{color:#F1DCA6}
+.mr-ics{margin-top:8px;font-size:14px;font-weight:800;color:#E3C27A;text-decoration:underline;text-underline-offset:3px}.mr-ics[hidden]{display:none}
+.mr-k{margin:28px 0 16px;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#E3C27A}
+.mr-steps{margin:0;padding:0;list-style:none}
+.mr-steps li{position:relative;display:flex;gap:16px;padding-bottom:22px}
+.mr-steps li:last-child{padding-bottom:0}
+.mr-steps li:not(:last-child)::before{content:"";position:absolute;left:17px;top:42px;bottom:2px;width:2px;background:rgba(227,194,122,.3)}
+.mr-n{position:relative;flex:0 0 36px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:#1F2566;border:2px solid #E3C27A;color:#F6DB95;font-size:16px;font-weight:800}
+.mr-steps li>div{flex:1;min-width:0;padding-top:1px}
+.mr-steps b{display:block;font-size:17px;line-height:1.3;font-weight:800;color:#FFFFFF}
+.mr-steps p{margin:3px 0 0;font-size:15px;line-height:1.45;color:#B9BCDD}
+.mr-mail{color:#FFFFFF;font-weight:700;word-break:break-all}
+.mr-steps p.mr-note{margin:10px 0 0;padding:10px 14px;font-size:14px;line-height:1.4;color:#D6D8F0;background:rgba(255,255,255,.06);border-radius:12px}
+.mr-note a{color:#E3C27A;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.mr-chan{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:14px;min-height:60px;padding:8px 20px;box-sizing:border-box;border-radius:18px;background:linear-gradient(180deg,#F6DB95,#D9AE56);color:#141A46;font-size:17px;font-weight:800;text-align:center;box-shadow:0 0 0 5px rgba(227,194,122,.18),0 10px 26px rgba(227,194,122,.28)}
+.mr-sub,.mr-bot{display:flex;align-items:center;gap:14px;padding:18px;border-radius:22px;color:#FFFFFF}
+.mr-sub{margin-top:28px;background:rgba(227,194,122,.1);border:1px solid rgba(227,194,122,.45)}
+.mr-bot{margin-top:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14)}
+.mr-ic{flex:0 0 44px;width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:rgba(227,194,122,.2);color:#F1DCA6}
+.mr-ic-b{background:rgba(124,214,240,.16);color:#CFEFFA}
+.mr-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.mr-tx b{font-size:17px;line-height:1.25;font-weight:800}
+.mr-tx>span{font-size:14.5px;line-height:1.4;color:#B9BCDD}
+.mr-sw{flex:0 0 56px;position:relative;width:56px;height:32px;padding:0;border:0;border-radius:999px;background:rgba(255,255,255,.28);cursor:pointer;transition:background .2s}
+.mr-sw i{position:absolute;top:4px;left:4px;width:24px;height:24px;border-radius:50%;background:#FFFFFF;box-shadow:0 2px 6px rgba(0,0,0,.35);transition:left .2s}
+.mr-sw.on{background:#1FB894}.mr-sw.on i{left:28px}
+.mr-sw:disabled{cursor:default}
+.m-reg .m-close-l{align-self:center;margin-top:18px;color:#B9BCDD}
+@media (max-width:760px){.m-reg h2{font-size:30px}.mr-ck{width:68px;height:68px}}
 </style></head><body>
 <div class="site">
 <header class="top">
@@ -1085,7 +1125,7 @@ img,svg{max-width:100%}
 <div class="m-form"><p class="m-kick"></p><h2 id="m-title"></h2><p class="m-sub"></p>
 <form novalidate><div class="m-fields"></div><label class="m-ok"><input type="checkbox" name="consent" required><span>Согласен(на) на обработку персональных данных по <a href="#">политике фонда</a></span></label>
 <p class="m-err" role="alert" hidden></p><button type="submit" class="btn-reg m-submit"></button></form></div>
-<div class="m-done" hidden><span class="m-done-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 L10 17 L19 7"/></svg></span><h2></h2><p></p><div class="m-help" hidden><span class="mh-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7 L12 13 L20 7"/></svg></span><div class="mh-x"><b class="mh-t"></b><span><span class="mh-s"></span> <a href="#ask" data-ask>напишите нам</a></span></div></div><a class="btn-more m-ics" hidden download="event.ics"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141A46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10 H20 M9 3 V7 M15 3 V7"/></svg>Добавить в календарь</a><div class="m-extra" hidden><div class="mx mx-sub"><span class="mx-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16 V11 A6 6 0 0 1 18 11 V16 L20 18 H4 Z"/><path d="M10 21 H14"/></svg></span><div class="mx-x"><b>Не пропускайте новые события</b><span>Раз в неделю — подборка того, что открылось для записи.</span></div><button type="button" class="mx-btn" data-mx-sub>Подписаться на этот e-mail</button><span class="mx-ok" hidden>✓ Вы подписаны на анонсы</span></div><div class="mx mx-tg"><span class="mx-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 4.2 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.4-1.5ZM9.6 14.6l8.9-5.6c.4-.3.8-.1.5.2l-7.4 6.7-.3 3.2-1.7-4.5Z"/></svg></span><div class="mx-x"><b>Удобнее в Telegram?</b><span class="mx-tg-s"></span></div><a class="mx-btn mx-tgb" target="_blank" rel="noopener" href="https://t.me/calendarRKI_bot">Открыть бот @calendarRKI_bot</a></div></div><button type="button" class="m-close-l" data-close>Закрыть</button></div>
+<div class="m-reg" hidden><div class="mr-head"><span class="mr-ck"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 L10 17 L19 7"/></svg></span><h2>Вы записаны!</h2><p class="mr-ev"><b></b><br><span></span></p><a class="mr-ics" hidden download="event.ics">Добавить в календарь</a></div><p class="mr-k">Порядок участия</p><ol class="mr-steps"><li><span class="mr-n">1</span><div><b>Сейчас — письмо на почту</b><p>Вам придёт письмо с подтверждением на <span class="mr-mail"></span>.</p><p class="mr-note">Письма нет? Проверьте папку «Спам» или <a href="mailto:GoClass@ya.ru">напишите нам</a>.</p></div></li><li><span class="mr-n">2</span><div><b>За день до события</b><p>На почту придёт ссылка для подключения.</p></div></li><li><span class="mr-n">3</span><div><b>Накануне вечером</b><p>Опубликуем ссылку на эфир в Telegram-канале — на всякий случай.</p><a class="mr-chan" href="https://t.me/RKICENTER" target="_blank" rel="noopener"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 L3 11 L9.5 13.5 M21 4 L17 20 L9.5 13.5 M21 4 L9.5 13.5 L9.5 19 L12.5 16"/></svg>Подписаться на канал РКИ-центра</a></div></li></ol><div class="mr-sub"><span class="mr-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17 V11 A6 6 0 0 1 18 11 V17 L20 19 H4 Z"/><path d="M10 22 H14"/></svg></span><span class="mr-tx"><b id="mr-sw-l">Главные события раз в неделю</b><span class="mr-sub-s"></span></span><button type="button" class="mr-sw" role="switch" aria-checked="false" aria-labelledby="mr-sw-l"><i></i></button></div><a class="mr-bot" target="_blank" rel="noopener" href="https://t.me/calendarRKI_bot"><span class="mr-ic mr-ic-b"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 L3 11 L9.5 13.5 M21 4 L17 20 L9.5 13.5 M21 4 L9.5 13.5 L9.5 19 L12.5 16"/></svg></span><span class="mr-tx"><b>Telegram-бот</b><span>покажет все события и напомнит о новых</span></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E3C27A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg></a><button type="button" class="m-close-l" data-close>Закрыть</button></div> <div class="m-done" hidden><span class="m-done-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 L10 17 L19 7"/></svg></span><h2></h2><p></p><div class="m-help" hidden><span class="mh-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7 L12 13 L20 7"/></svg></span><div class="mh-x"><b class="mh-t"></b><span><span class="mh-s"></span> <a href="#ask" data-ask>напишите нам</a></span></div></div><a class="btn-more m-ics" hidden download="event.ics"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141A46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10 H20 M9 3 V7 M15 3 V7"/></svg>Добавить в календарь</a><div class="m-extra" hidden><div class="mx mx-sub"><span class="mx-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16 V11 A6 6 0 0 1 18 11 V16 L20 18 H4 Z"/><path d="M10 21 H14"/></svg></span><div class="mx-x"><b>Не пропускайте новые события</b><span>Раз в неделю — подборка того, что открылось для записи.</span></div><button type="button" class="mx-btn" data-mx-sub>Подписаться на этот e-mail</button><span class="mx-ok" hidden>✓ Вы подписаны на анонсы</span></div><div class="mx mx-tg"><span class="mx-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 4.2 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.4-1.5ZM9.6 14.6l8.9-5.6c.4-.3.8-.1.5.2l-7.4 6.7-.3 3.2-1.7-4.5Z"/></svg></span><div class="mx-x"><b>Удобнее в Telegram?</b><span class="mx-tg-s"></span></div><a class="mx-btn mx-tgb" target="_blank" rel="noopener" href="https://t.me/calendarRKI_bot">Открыть бот @calendarRKI_bot</a></div></div><button type="button" class="m-close-l" data-close>Закрыть</button></div>
 </div></div>
 </div>
 <div class="modal org-modal" id="org-modal" hidden><div class="m-back" data-org-close></div>
@@ -1165,6 +1205,9 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
   const modal = $('#modal'), box = $('.m-box', modal), form = $('form', modal), fields = $('.m-fields', modal), err = $('.m-err', modal);
   let mode = null, evId = null, lastFocus = null;
   const FLD = {
+    qtext: '<label class="fld"><span>Ваш вопрос</span><textarea name="question" rows="4" required></textarea></label>',
+    qname: '<label class="fld"><span>Имя <span class="opt">— по желанию</span></span><input name="name" autocomplete="name"></label>',
+    qemail: '<label class="fld"><span>E-mail <span class="opt">— если хотите получить ответ письмом</span></span><input name="email" type="email" autocomplete="email"></label>',
     name: '<label class="fld"><span>Имя и фамилия</span><input name="name" autocomplete="name" required></label>',
     email: '<label class="fld"><span>E-mail</span><input name="email" type="email" autocomplete="email" required></label>',
     city: '<label class="fld"><span>Страна и город <span class="opt">— по желанию</span></span><input name="city" autocomplete="address-level2"></label>',
@@ -1178,6 +1221,7 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
   const MODES = {
     subscribe: { kick: 'Анонсы', title: 'Подписка на новые события', sub: () => 'Раз в неделю пришлём, что нового в календаре. Без спама.', f: ['email'], btn: 'Подписаться', doneT: 'Готово!', doneP: 'Будем писать обо всех новых мероприятиях.', type: 'subscribe' },
     register: { kick: 'Регистрация', sub: (e) => e.day + ' ' + MGEN[e.mon] + ', ' + e.time + ' мск · ' + e.place.toLowerCase().replace('онлайн', 'онлайн') + ' · ' + e.dur, f: ['name', 'email', 'city', 'work'], btn: 'Зарегистрироваться', doneT: 'Вы записаны!', doneP: 'Письмо с подтверждением и ссылкой придёт на почту.', type: 'registration' },
+    question: { kick: 'Вопрос к эфиру', sub: () => 'Напишите, что вас интересует по теме. Мы подготовим ответ и разберём его во время мероприятия.', f: ['qtext', 'qname', 'qemail'], btn: 'Отправить вопрос', doneT: 'Спасибо за вопрос!', doneP: 'Мы подготовим ответ и разберём его в эфире.', type: 'question' },
     want: { kick: 'Запись · дата уточняется', sub: () => 'Как только назначим дату, пришлём письмо — место останется за вами.', f: ['name', 'email'], btn: 'Записаться', doneT: 'Вы записаны!', doneP: 'Сообщим дату сразу, как назначим.', type: 'waitlist' },
     add: { kick: 'Для организаторов', title: 'Добавить своё мероприятие', sub: () => 'Проверим заявку и разместим событие в календаре бесплатно.', f: ['etitle', 'edate', 'eformat', 'edesc', 'name', 'email'], btn: 'Отправить заявку', doneT: 'Заявка отправлена', doneP: 'Мы свяжемся с вами по почте в течение нескольких дней.', type: 'event_request' },
     propose: { kick: 'Предложить тему', title: 'Какое событие вы хотели бы видеть?', sub: () => 'Соберём интерес коллег и пригласим подходящего спикера.', f: ['topic', 'email'], btn: 'Предложить', doneT: 'Спасибо!', doneP: 'Напишем, если тема попадёт в календарь.', type: 'topic' }
@@ -1191,10 +1235,11 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
     fields.innerHTML = cfg.f.map((k) => FLD[k]).join('');
     $('.m-submit', modal).textContent = cfg.btn;
     form.reset(); err.hidden = true;
-    $('.m-form', modal).hidden = false; $('.m-done', modal).hidden = true; $('.m-extra', modal).hidden = true; $('.m-help', modal).hidden = true;
+    $('.m-reg', modal).hidden = true; box.classList.remove('dark'); $('.m-form', modal).hidden = false; $('.m-done', modal).hidden = true; $('.m-extra', modal).hidden = true; $('.m-help', modal).hidden = true;
     modal.hidden = false; document.body.style.overflow = 'hidden';
     setTimeout(() => { const f = $('input,textarea', fields); if (f) f.focus(); }, 30);
   }
+  (function () { const m = location.search.match(/[?&]ask=([\w-]+)/); if (m && EVENTS[m[1]]) open('question', m[1]); })();
   function close() { modal.hidden = true; document.body.style.overflow = ''; if (lastFocus) lastFocus.focus(); }
   $$('[data-close]', modal).forEach((b) => b.addEventListener('click', close));
   document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && !modal.hidden) close(); });
@@ -1223,6 +1268,7 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
     const data = Object.fromEntries(new FormData(form).entries());
     delete data.consent; data.consent = true;
     if (evId) { data.eventId = evId; data.eventTitle = EVENTS[evId].title; }
+    if (mode === 'question') { data.event = data.eventTitle || ''; data.email = data.email || ''; data.source = 'event-questions'; }
     const btn = $('.m-submit', modal); btn.disabled = true;
     try {
       await send(MODES[mode].type, data);
@@ -1243,7 +1289,8 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
         $('.mx-tg-s', modal).textContent = reg ? 'Бот напомнит о событии и пришлёт ссылку на эфир.' : 'Бот сообщит дату, как только мы её назначим.';
         $('.m-extra', modal).hidden = false;
       }
-      $('.m-form', modal).hidden = true; $('.m-done', modal).hidden = false;
+      $('.m-form', modal).hidden = true;
+      if (mode === 'register' && evId) { showReg(EVENTS[evId], (data.email || '').trim()); } else { $('.m-done', modal).hidden = false; }
       if (mode === 'subscribe') { store.set('rki-sub', true); subDone(); }
       if (evId) { const done = store.get('rki-done') || {}; done[evId] = mode; store.set('rki-done', done); markDone(evId, mode, true); }
     } catch (e) { err.textContent = 'Не получилось отправить. Проверьте интернет и попробуйте ещё раз.'; err.hidden = false; }
@@ -1251,6 +1298,28 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
   });
 
   let lastEmail = '';
+  function showReg(e, email) {
+    const r = $('.m-reg', modal);
+    $('.mr-ev b', r).textContent = e.title;
+    $('.mr-ev span', r).textContent = e.day ? (e.day + ' ' + MGEN[e.mon] + ', ' + e.time + ' мск · ' + e.place.toLowerCase()) : '';
+    $('.mr-mail', r).textContent = email;
+    const link = $('.mr-ics', r); if (e.day) { link.href = ics(e); link.hidden = false; } else link.hidden = true;
+    lastEmail = email;
+    setSw(!!store.get('rki-sub'));
+    $('.mr-bot', r).href = 'https://t.me/calendarRKI_bot?start=ev_' + evId;
+    box.classList.add('dark'); r.hidden = false; box.scrollTop = 0;
+  }
+  function setSw(on, msg) {
+    const r = $('.m-reg', modal), sw = $('.mr-sw', r);
+    sw.setAttribute('aria-checked', on); sw.classList.toggle('on', on); sw.disabled = on;
+    $('.mr-sub-s', r).textContent = msg || (on ? 'Включено: пришлём на ' + (lastEmail || 'вашу почту') : 'Включите — пришлём на ' + (lastEmail || 'вашу почту'));
+  }
+  $('.mr-sw', modal).addEventListener('click', async () => {
+    if (!lastEmail) return;
+    setSw(true);
+    try { await send('subscribe', { email: lastEmail, source: 'after-registration' }); store.set('rki-sub', true); subDone(); $$('form[data-sub]').forEach((x) => { x.hidden = true; x.nextElementSibling.hidden = false; }); }
+    catch (e) { setSw(false, 'Не получилось — нажмите ещё раз'); }
+  });
   $('[data-mx-sub]', modal).addEventListener('click', async (ev) => {
     const b = ev.currentTarget; if (!lastEmail) return; b.disabled = true;
     try { await send('subscribe', { email: lastEmail, source: 'after-registration' }); store.set('rki-sub', true); subDone(); $$('form[data-sub]').forEach((x) => { x.hidden = true; x.nextElementSibling.hidden = false; }); b.hidden = true; $('.mx-ok', modal).hidden = false; }
