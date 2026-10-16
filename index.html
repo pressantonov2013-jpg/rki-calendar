@@ -1380,12 +1380,16 @@ const CONFIG = { ENDPOINT: 'https://script.google.com/macros/s/AKfycbzkh8UQpPBTs
     catch (e) { prompt('Скопируйте ссылку:', url); }
   }
   const siteUrl = () => location.origin + location.pathname;
+  /* короткие ссылки на события: calendar.rki.center/mozg и т.д. */
+  const SLUG = { neyro: 'mozg', storytelling: 'story', chtenie: 'chtenie', myau: 'myau' };
+  const SLUG_ID = Object.fromEntries(Object.entries(SLUG).map(([k, v]) => [v, k]));
+  const evUrl = (id) => SLUG[id] ? location.origin + '/' + SLUG[id] : siteUrl() + '#' + id;
   document.addEventListener('click', (ev) => {
     const a = ev.target.closest('[data-share-site],[data-share-ev]'); if (!a) return; ev.preventDefault();
     if (a.hasAttribute('data-share-site')) share('Календарь РКИ', 'Календарь РКИ — образовательные события для преподавателей РКИ', siteUrl());
-    else { const id = a.dataset.shareEv, e = EVENTS[id]; const me = (store.get('rki-done') || {})[id]; share(e.title, me ? 'Я записался(-ась) на «' + e.title + '» в Календаре РКИ. Присоединяйтесь!' : 'Приглашаю на «' + e.title + '» в Календаре РКИ', siteUrl() + '#' + id); }
+    else { const id = a.dataset.shareEv, e = EVENTS[id]; const me = (store.get('rki-done') || {})[id]; share(e.title, me ? 'Я записался(-ась) на «' + e.title + '» в Календаре РКИ. Присоединяйтесь!' : 'Приглашаю на «' + e.title + '» в Календаре РКИ', evUrl(id)); }
   });
-  (function () { const id = decodeURIComponent(location.hash.slice(1)); const c = id && document.querySelector('.ev[data-id="' + id + '"]'); if (c) setTimeout(() => { c.scrollIntoView({ block: 'center' }); c.classList.add('ev-hl'); setTimeout(() => c.classList.remove('ev-hl'), 2600); }, 400); })();
+  (function () { const h0 = decodeURIComponent(location.hash.slice(1)), id = SLUG_ID[h0] || h0; const c = id && document.querySelector('.ev[data-id="' + id + '"]'); if (c) setTimeout(() => { c.scrollIntoView({ block: 'center' }); c.classList.add('ev-hl'); setTimeout(() => c.classList.remove('ev-hl'), 2600); }, 400); })();
   try { if (localStorage.getItem('rki-menu-seen')) burger.classList.add('seen'); } catch (e) {}
   burger.addEventListener('click', () => { burger.classList.add('seen'); try { localStorage.setItem('rki-menu-seen', '1'); } catch (e) {} });
 
