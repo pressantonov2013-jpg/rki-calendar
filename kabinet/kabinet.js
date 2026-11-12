@@ -221,9 +221,59 @@ function evCard(ev){
   var head=h('div',{class:'ev-head has-ban'+(ev.poster?' has-pic':'')},ev.poster?h('img',{class:'ev-poster',src:ev.poster,alt:'Афиша'}):null,info,h('div',{class:'ev-cert'},certImg(ev,got?p.certName:'',!!got,'ev-cert-img')));
   return h('article',{class:'ev'},head,h('div',{class:'mrows'},matRow(ev),testRow(ev),certRow(ev)),reviewBox(ev));
 }
+
+/* ---------- достижения ---------- */
+var MI={
+play:'<path d="M10 8.5v7l6-3.5z" fill="{c}"/>',
+check:'<path d="M7.5 12.5l3 3 6-7" fill="none" stroke="{c}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
+cert:'<circle cx="12" cy="10.5" r="3.6" fill="none" stroke="{c}" stroke-width="2"/><path d="M10 14l-1 5 3-1.6L15 19l-1-5" fill="none" stroke="{c}" stroke-width="1.8" stroke-linejoin="round"/>',
+star:'<path d="M12 6.2l1.8 3.7 4 .5-2.9 2.8.8 4-3.7-2-3.7 2 .8-4-2.9-2.8 4-.5z" fill="{c}"/>',
+heart:'<path d="M12 18s-5.5-3.4-5.5-7.1A3 3 0 0 1 12 9.4a3 3 0 0 1 5.5 1.5C17.5 14.6 12 18 12 18z" fill="{c}"/>',
+chat:'<path d="M7 7.5h10a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-1.5 1.5h-5l-3 2.5v-2.5H7A1.5 1.5 0 0 1 5.5 14V9A1.5 1.5 0 0 1 7 7.5z" fill="none" stroke="{c}" stroke-width="1.9" stroke-linejoin="round"/>',
+ask:'<path d="M9.6 9.8a2.4 2.4 0 1 1 3.4 2.2c-.7.4-1 .8-1 1.6" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.6" r="1.1" fill="{c}"/>',
+cup:'<path d="M8 6.5h8v3.5a4 4 0 0 1-8 0zM8 8H5.5c0 2 1 3 2.6 3.2M16 8h2.5c0 2-1 3-2.6 3.2M12 14v2.6M9 18h6" fill="none" stroke="{c}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>'};
+var MT={bronze:['#F0B98A','#B8703A','#7A4519'],silver:['#F1F3FA','#B5BBD3','#6D7498'],gold:['#FBE6A8','#E3C27A','#A57A18'],violet:['#B9A8FF','#5A3FE0','#2F1C9A']};
+var mu=0;
+function medalSvg(tier,ic,on,size){
+  var u='m'+(mu++),t=MT[tier],s;
+  if(on)s='<defs><linearGradient id="'+u+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+t[0]+'"/><stop offset="1" stop-color="'+t[1]+'"/></linearGradient></defs><path d="M17 2h8l5 14h-8zM47 2h-8l-5 14h8z" fill="#5A3FE0" opacity=".9"/><circle cx="32" cy="38" r="22" fill="url(#'+u+')" stroke="'+t[2]+'" stroke-width="2"/><circle cx="32" cy="38" r="17" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.4"/><g transform="translate(20 26)">'+MI[ic].replace(/\{c\}/g,t[2])+'</g>';
+  else s='<path d="M17 2h8l5 14h-8zM47 2h-8l-5 14h8z" fill="#CFCBC0"/><circle cx="32" cy="38" r="22" fill="#ECE8DE" stroke="#BDB8AB" stroke-width="2" stroke-dasharray="4 4"/><g transform="translate(20 26)" opacity=".55">'+MI[ic].replace(/\{c\}/g,'#8A8676')+'</g>';
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 64 64" aria-hidden="true">'+s+'</svg>';
+}
+function medals(){
+  var ps=EV.map(function(e){return pr(e.id)});
+  function any(f){return ps.some(f)}
+  return [
+    {k:'first',t:'bronze',i:'play',n:'Первый эфир',how:'Откройте запись любого эфира.',on:any(function(p){return !!p.mat})},
+    {k:'know',t:'silver',i:'check',n:'Знаток',how:'Сдайте любой тест на 60% и выше.',on:any(function(p){return p.test&&p.test.pass})},
+    {k:'cert',t:'gold',i:'cert',n:'Сертификат',how:'Пройдите тест и получите сертификат.',on:any(function(p){return p.cert==='sent'&&p.certName})},
+    {k:'top',t:'gold',i:'star',n:'Отличник',how:'Ответьте на все вопросы теста правильно.',on:any(function(p){return p.test&&p.test.total&&p.test.score===p.test.total})},
+    {k:'thx',t:'violet',i:'heart',n:'Благодарный',how:'Нажмите «Получил(а), спасибо!» под записью или сертификатом.',on:any(function(p){return !!(p.hMat||p.hCert)})},
+    {k:'voice',t:'silver',i:'chat',n:'Голос',how:'Оставьте отзыв о мастер-классе: стикеры или пара слов.',on:any(function(p){return (p.tags&&p.tags.length)||p.review})},
+    {k:'ask',t:'bronze',i:'ask',n:'Любопытный',how:'Задайте вопрос организатору кнопкой внизу справа.',on:S.qs.length>0},
+    {k:'cup',t:'gold',i:'cup',n:'Кубок сезона',how:'Получите сертификаты за все мастер-классы, которые уже прошли.',on:EV.length>1&&ps.every(function(p){return p.cert==='sent'&&p.certName})}
+  ];
+}
+function achV(){
+  var M=medals(),got=M.filter(function(m){return m.on}),open=!!S.achOpen,sel=M.filter(function(m){return m.k===S.achSel})[0];
+  var bar=h('button',{type:'button',class:'ach-bar'+(open?' open':''),'aria-expanded':open?'true':'false',onclick:function(){S.achOpen=!S.achOpen;render()}},
+    h('span',{class:'ach-mini',html:M.slice(0,3).map(function(m){return medalSvg(m.t,m.i,m.on,30)}).join('')}),
+    h('span',{class:'ach-bt'},h('b',{text:'Мои достижения'}),h('small',{text:got.length+' из '+M.length+' · нажмите, что можно получить'})),
+    h('span',{class:'ach-chev',text:'⌄'}));
+  var box=h('div',{class:'ach'},bar);
+  if(open){
+    var pc=Math.round(got.length/M.length*100),grid=h('div',{class:'ach-grid'});
+    M.forEach(function(m){grid.append(h('button',{type:'button',class:'ach-m'+(m.on?' on':' off')+(m.k===S.achSel?' sel':''),onclick:function(){S.achSel=S.achSel===m.k?'':m.k;render()}},h('span',{html:medalSvg(m.t,m.i,m.on,64)}),h('b',{text:m.n}),h('small',{text:m.on?'получено':'как получить'})))});
+    var panel=h('div',{class:'ach-panel'},h('div',{class:'ach-top'},h('b',{text:'Собрано '+got.length+' из '+M.length}),h('span',{text:'осталось '+(M.length-got.length)})),h('div',{class:'ach-prog'},h('i',{style:'width:'+pc+'%'})),grid);
+    if(sel)panel.append(h('div',{class:'ach-det'},h('span',{html:medalSvg(sel.t,sel.i,sel.on,56)}),h('div',null,h('b',{text:sel.n}),h('p',{text:sel.on?'Получено. Так держать!':sel.how}))));
+    box.append(panel);
+  }
+  return box;
+}
 function cabV(){
   var out=h('div',{class:'cabwrap'},h('div',{class:'hello'},h('div',null,h('h1',{text:'Здравствуйте, '+first(S.user.name)}),h('p',{class:'muted',text:'Три простых шага до сертификата.'})),h('div',{class:'who-chip'},h('span',{text:S.user.name}),h('code',{text:S.user.email}))));
   var mine=S.qs;if(mine.length)out.append(h('div',{class:'myq'},mine.map(function(q){return h('div',{class:'mq'},h('small',{text:'Ваш вопрос'}),h('p',{text:q.text}),q.ans?h('div',{class:'ans'},h('b',{text:'Ответ организатора'}),h('p',{text:q.ans})):h('small',{class:'wt',text:'Организатор ответит на почту и здесь'}))})));
+  out.append(achV());
   EV.forEach(function(ev){out.append(evCard(ev))});
   return out;
 }
