@@ -88,6 +88,7 @@ function approvePending() {
 /** Запустите один раз после того, как в свойствах скрипта указаны TG_TOKEN и WEB_URL. */
 function setWebhook() {
   var p = PropertiesService.getScriptProperties();
+  p.setProperty('WEB_URL', 'https://script.google.com/macros/s/AKfycbzjj6wzDH8pBxqk79CCeviDMV7Wlvgetbm_34ESymipEnHwTmmY-zjDW2ugHji5vueb/exec');
   var r = UrlFetchApp.fetch('https://api.telegram.org/bot' + p.getProperty('TG_TOKEN') + '/setWebhook?url=' + encodeURIComponent(p.getProperty('WEB_URL')));
   Logger.log(r.getContentText());
 }
@@ -318,4 +319,17 @@ function ensureProg_(email, ev, wantObj) {
   s.appendRow(row);
   var n = s.getLastRow();
   return wantObj ? { row: n, created: true } : n;
+}
+
+/** Один раз: читает chat id из сообщения боту (/start) и сохраняет TG_CHAT. */
+function findChatId() {
+  var p = PropertiesService.getScriptProperties(), tok = p.getProperty('TG_TOKEN');
+  var me = JSON.parse(UrlFetchApp.fetch('https://api.telegram.org/bot' + tok + '/getMe').getContentText());
+  var r = JSON.parse(UrlFetchApp.fetch('https://api.telegram.org/bot' + tok + '/getUpdates').getContentText());
+  var id = '';
+  (r.result || []).forEach(function (u) { if (u.message && u.message.chat) id = String(u.message.chat.id); });
+  if (!id) { Logger.log('Бот @' + me.result.username + ' найден, но сообщений ещё нет. Напишите ему /start.'); return; }
+  p.setProperty('TG_CHAT', id);
+  UrlFetchApp.fetch('https://api.telegram.org/bot' + tok + '/sendMessage', { method: 'post', contentType: 'application/json', payload: JSON.stringify({ chat_id: id, text: '✅ Бот кабинета РКИ подключён. Сюда будут приходить события и вопросы участников.' }) });
+  Logger.log('Готово: бот @' + me.result.username + ', chat id сохранён.');
 }

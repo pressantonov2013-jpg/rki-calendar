@@ -2,7 +2,7 @@
    Здесь меняются ссылки, вопросы и события. Больше нигде править не нужно. */
 window.KAB = {
   /* Адрес веб-приложения Apps Script (см. ИНСТРУКЦИЯ.md, шаг 4). Пока пусто — кабинет работает в демо-режиме. */
-  API: '',
+  API: 'https://script.google.com/macros/s/AKfycbzjj6wzDH8pBxqk79CCeviDMV7Wlvgetbm_34ESymipEnHwTmmY-zjDW2ugHji5vueb/exec',
   CONTACT_EMAIL: 'hello@rki.center',
   NEED_PERCENT: 0.6,            /* сколько правильных ответов нужно: 60% */
 
