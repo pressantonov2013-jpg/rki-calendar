@@ -96,7 +96,7 @@ function saveCert(ev,name){
 function render(){
   var app=$('#app'),y=window.scrollY;
   var brand=h('div',{class:'brand'},h('svg',{viewBox:'0 0 28 28','aria-hidden':'true',html:'<defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--g1)"/><stop offset="1" stop-color="var(--g2)"/></linearGradient></defs><rect x="1" y="3" width="26" height="24" rx="8" fill="url(#bg1)"/><rect x="7.5" y="0.8" width="3" height="6" rx="1.5" fill="var(--ink)"/><rect x="17.5" y="0.8" width="3" height="6" rx="1.5" fill="var(--ink)"/><path d="M8.5 16.5l3.6 3.6 7.4-7.6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'}),
-    h('span',{class:'wm'},h('b',{text:'Календарь'}),' ',h('em',{text:'РКИ'})),h('span',{class:'cab',text:'Личный кабинет'}));
+    h('span',{class:'wm'},h('b',{text:'Календарь'}),' ',h('em',{text:'РКИ'})),h('span',{class:'cab',html:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5M22 9v6"/></svg>Мой кабинет<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 2 4.5 13.5h6L9.5 22l10-12.5h-6.5z"/></svg>'}));
   var right=h('div',{class:'top-r'},h('a',{class:'btn btn-quiet btn-sm',href:'/'},'← Календарь'),S.user?h('button',{type:'button',class:'btn btn-quiet btn-sm',onclick:logout},'Выйти'):null);
   var kids=[h('div',{class:'top'},h('a',{href:'/',style:'text-decoration:none;color:inherit'},brand),right)];
   if(!K.API)kids.push(h('p',{class:'proto-note',text:'Демо-режим: сервер ещё не подключён, данные не сохраняются.'}));
@@ -118,7 +118,7 @@ function loginV(){
   }
   inE.addEventListener('keydown',function(ev){if(ev.key==='Enter')submit()});
   var form=S.form?reqV():null;
-  return h('div',{class:'loginbox'},h('h1',{class:'ptitle',text:'Вход в личный кабинет'}),h('p',{class:'lead',text:'Введите почту, пришлём ссылку для входа. Пароль не нужен.'}),
+  return h('div',{class:'loginbox'},h('h1',{class:'ptitle',text:'Вход в кабинет'}),h('p',{class:'lead',text:'Введите почту, пришлём ссылку для входа. Пароль не нужен.'}),
     h('div',{class:'fld'},h('label',{for:'l-e',text:'Почта'}),inE),err,
     h('button',{type:'button',class:'btn btn-primary',style:'min-height:46px',onclick:submit},'Прислать ссылку'),
     h('p',{class:'help'},'Не были на мастер-классе и хотите посмотреть запись? ',h('button',{type:'button',class:'link',onclick:function(){S.form=true;S.formErr='';render()}},'Оставить заявку')),form);

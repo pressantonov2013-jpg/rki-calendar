@@ -535,7 +535,7 @@ h1,h2,h3{text-wrap:balance;letter-spacing:-.02em}
 }
 
 /* ===== v13: guided steps, tone colours, centred tabs ===== */
-.cab{margin-left:10px;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--accent);background:var(--accent-soft)}
+.cab{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;flex:none;margin-left:10px;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--accent);background:var(--accent-soft)}
 .brand{flex-wrap:nowrap}
 .etabs{justify-content:center;width:fit-content;max-width:100%;margin:6px auto 18px;padding:4px;gap:2px;background:var(--surface-2);border-radius:999px;border:0}
 .etabs button{border:0;background:transparent;min-height:40px;padding:0 18px;font-size:14px}
@@ -801,3 +801,5 @@ h1.pg{font:700 24px/1.2 var(--font-display);margin-bottom:6px}
   .ev-head.has-ban:not(.has-pic){grid-template-columns:1fr;grid-template-areas:none;justify-items:center}
   .ev-head.has-ban:not(.has-pic) .ev-info,.ev-head.has-ban:not(.has-pic) .ev-cert{grid-area:auto;order:0}
 }
+
+@media(max-width:480px){.cab{margin-left:6px;padding:5px 10px}.wm{font-size:17px}}
