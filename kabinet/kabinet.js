@@ -219,54 +219,34 @@ function evCard(ev){
   var p=pr(ev.id),got=p.cert==='sent'&&p.certName;
   var info=h('div',{class:'ev-info'},h('div',{class:'d-big'},h('b',{text:ev.day}),h('span',{text:ev.month})),h('div',{class:'d-sub',text:ev.weekday}),h('h3',{text:ev.title}),h('p',{class:'d-rest',text:ev.sub}),h('p',{class:'meta',text:ev.host}));
   var head=h('div',{class:'ev-head has-ban'+(ev.poster?' has-pic':'')},ev.poster?h('img',{class:'ev-poster',src:ev.poster,alt:'Афиша'}):null,info,h('div',{class:'ev-cert'},certImg(ev,got?p.certName:'',!!got,'ev-cert-img')));
-  return h('article',{class:'ev'},head,h('div',{class:'mrows'},matRow(ev),testRow(ev),certRow(ev)),reviewBox(ev));
+  return h('article',{class:'ev',id:'ev-'+ev.id},head,h('div',{class:'mrows'},matRow(ev),testRow(ev),certRow(ev)),reviewBox(ev));
 }
 
 /* ---------- достижения ---------- */
-var MI={
-play:'<path d="M10 8.5v7l6-3.5z" fill="{c}"/>',
-check:'<path d="M7.5 12.5l3 3 6-7" fill="none" stroke="{c}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
-cert:'<circle cx="12" cy="10.5" r="3.6" fill="none" stroke="{c}" stroke-width="2"/><path d="M10 14l-1 5 3-1.6L15 19l-1-5" fill="none" stroke="{c}" stroke-width="1.8" stroke-linejoin="round"/>',
-star:'<path d="M12 6.2l1.8 3.7 4 .5-2.9 2.8.8 4-3.7-2-3.7 2 .8-4-2.9-2.8 4-.5z" fill="{c}"/>',
-heart:'<path d="M12 18s-5.5-3.4-5.5-7.1A3 3 0 0 1 12 9.4a3 3 0 0 1 5.5 1.5C17.5 14.6 12 18 12 18z" fill="{c}"/>',
-chat:'<path d="M7 7.5h10a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-1.5 1.5h-5l-3 2.5v-2.5H7A1.5 1.5 0 0 1 5.5 14V9A1.5 1.5 0 0 1 7 7.5z" fill="none" stroke="{c}" stroke-width="1.9" stroke-linejoin="round"/>',
-ask:'<path d="M9.6 9.8a2.4 2.4 0 1 1 3.4 2.2c-.7.4-1 .8-1 1.6" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.6" r="1.1" fill="{c}"/>',
-cup:'<path d="M8 6.5h8v3.5a4 4 0 0 1-8 0zM8 8H5.5c0 2 1 3 2.6 3.2M16 8h2.5c0 2-1 3-2.6 3.2M12 14v2.6M9 18h6" fill="none" stroke="{c}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>'};
-var MT={bronze:['#F0B98A','#B8703A','#7A4519'],silver:['#F1F3FA','#B5BBD3','#6D7498'],gold:['#FBE6A8','#E3C27A','#A57A18'],violet:['#B9A8FF','#5A3FE0','#2F1C9A']};
-var mu=0;
-function medalSvg(tier,ic,on,size){
-  var u='m'+(mu++),t=MT[tier],s;
-  if(on)s='<defs><linearGradient id="'+u+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+t[0]+'"/><stop offset="1" stop-color="'+t[1]+'"/></linearGradient></defs><path d="M17 2h8l5 14h-8zM47 2h-8l-5 14h8z" fill="#5A3FE0" opacity=".9"/><circle cx="32" cy="38" r="22" fill="url(#'+u+')" stroke="'+t[2]+'" stroke-width="2"/><circle cx="32" cy="38" r="17" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.4"/><g transform="translate(20 26)">'+MI[ic].replace(/\{c\}/g,t[2])+'</g>';
-  else s='<path d="M17 2h8l5 14h-8zM47 2h-8l-5 14h8z" fill="#CFCBC0"/><circle cx="32" cy="38" r="22" fill="#ECE8DE" stroke="#BDB8AB" stroke-width="2" stroke-dasharray="4 4"/><g transform="translate(20 26)" opacity=".55">'+MI[ic].replace(/\{c\}/g,'#8A8676')+'</g>';
-  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 64 64" aria-hidden="true">'+s+'</svg>';
-}
-function medals(){
-  var ps=EV.map(function(e){return pr(e.id)});
-  function any(f){return ps.some(f)}
-  return [
-    {k:'first',t:'bronze',i:'play',n:'Первый эфир',how:'Откройте запись любого эфира.',on:any(function(p){return !!p.mat})},
-    {k:'know',t:'silver',i:'check',n:'Знаток',how:'Сдайте любой тест на 60% и выше.',on:any(function(p){return p.test&&p.test.pass})},
-    {k:'cert',t:'gold',i:'cert',n:'Сертификат',how:'Пройдите тест и получите сертификат.',on:any(function(p){return p.cert==='sent'&&p.certName})},
-    {k:'top',t:'gold',i:'star',n:'Отличник',how:'Ответьте на все вопросы теста правильно.',on:any(function(p){return p.test&&p.test.total&&p.test.score===p.test.total})},
-    {k:'thx',t:'violet',i:'heart',n:'Благодарный',how:'Нажмите «Получил(а), спасибо!» под записью или сертификатом.',on:any(function(p){return !!(p.hMat||p.hCert)})},
-    {k:'voice',t:'silver',i:'chat',n:'Голос',how:'Оставьте отзыв о мастер-классе: стикеры или пара слов.',on:any(function(p){return (p.tags&&p.tags.length)||p.review})},
-    {k:'ask',t:'bronze',i:'ask',n:'Любопытный',how:'Задайте вопрос организатору кнопкой внизу справа.',on:S.qs.length>0},
-    {k:'cup',t:'gold',i:'cup',n:'Кубок сезона',how:'Получите сертификаты за все мастер-классы, которые уже прошли.',on:EV.length>1&&ps.every(function(p){return p.cert==='sent'&&p.certName})}
-  ];
+var CAPSVG='<svg width="84" height="84" viewBox="0 0 100 100" style="overflow:visible" aria-hidden="true"><defs><linearGradient id="cpT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B3F9E"/><stop offset="1" stop-color="#141A46"/></linearGradient></defs><g class="cap-g"><path d="M26 48v16c0 6 11 11 24 11s24-5 24-11V48z" fill="#141A46"/><path d="M26 56c0 6 11 11 24 11s24-5 24-11" fill="none" stroke="#E3B64C" stroke-width="3"/><path d="M50 20L94 38 50 56 6 38z" fill="url(#cpT)" stroke="#0B0F2E" stroke-width="2" stroke-linejoin="round"/><path d="M50 24L84 38 50 52" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="2"/><circle cx="50" cy="38" r="4" fill="#E3B64C"/><path d="M50 38L82 46v22" fill="none" stroke="#E3B64C" stroke-width="2.6" stroke-linecap="round"/><g class="cap-t"><path d="M82 46v20" stroke="#E3B64C" stroke-width="2.6" stroke-linecap="round"/><path d="M82 64l-5 14M82 64v16M82 64l5 14" stroke="#F3C860" stroke-width="3.4" stroke-linecap="round"/><circle cx="82" cy="64" r="3.4" fill="#E3B64C"/></g></g></svg>';
+var SPK=[[8,12,20,1.6,0],[88,10,18,2.1,.5],[20,48,14,1.8,.9],[80,46,22,2.4,.3],[36,10,12,2,1.1],[66,8,14,1.7,.7],[94,40,12,2.2,.2],[4,40,13,1.9,.4],[14,80,16,2.3,.8],[86,78,18,1.8,.1],[30,86,11,2.1,.6],[70,84,13,2.5,.9],[50,4,10,1.6,.3]];
+var ICO_DL='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>';
+var ICO_GO='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+function gotCert(ev){var p=pr(ev.id);return p.cert==='sent'&&!!p.certName}
+function goEvent(ev){
+  var el=document.getElementById('ev-'+ev.id);if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');
 }
 function achV(){
-  var M=medals(),got=M.filter(function(m){return m.on}),open=!!S.achOpen,sel=M.filter(function(m){return m.k===S.achSel})[0];
-  var bar=h('button',{type:'button',class:'ach-bar'+(open?' open':''),'aria-expanded':open?'true':'false',onclick:function(){S.achOpen=!S.achOpen;render()}},
-    h('span',{class:'ach-mini',html:M.slice(0,3).map(function(m){return medalSvg(m.t,m.i,m.on,30)}).join('')}),
-    h('span',{class:'ach-bt'},h('b',{text:'Мои достижения'}),h('small',{text:got.length+' из '+M.length+' · нажмите, что можно получить'})),
-    h('span',{class:'ach-chev',text:'⌄'}));
-  var box=h('div',{class:'ach'},bar);
+  var open=!!S.achOpen,got=EV.filter(gotCert).length;
+  var sparks=SPK.map(function(s){return '<span class="spk" style="left:'+s[0]+'%;top:'+s[1]+'%;width:'+s[2]+'px;height:'+s[2]+'px;animation-duration:'+s[3]+'s;animation-delay:'+s[4]+'s"></span>'}).join('');
+  var bar=h('button',{type:'button',class:'ach-bar',onclick:function(){S.achOpen=!S.achOpen;render()},'aria-expanded':open?'true':'false'});
+  bar.innerHTML='<span class="ach-in">'+sparks+'<span class="ach-cap"><i class="ach-ring g"></i><i class="ach-ring"></i><span class="ach-disc">'+CAPSVG+'</span></span><b class="ach-t">Мои достижения</b><small class="ach-s">Открыто '+got+' из '+EV.length+'</small><span class="ach-go">'+(open?'Скрыть':'Открыть')+'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+(open?'m6 15 6-6 6 6':'m6 9 6 6 6-6')+'"/></svg></span></span>';
+  var box=h('div',{class:'ach'},h('div',{class:'ach-frame'},bar));
   if(open){
-    var pc=Math.round(got.length/M.length*100),grid=h('div',{class:'ach-grid'});
-    M.forEach(function(m){grid.append(h('button',{type:'button',class:'ach-m'+(m.on?' on':' off')+(m.k===S.achSel?' sel':''),onclick:function(){S.achSel=S.achSel===m.k?'':m.k;render()}},h('span',{html:medalSvg(m.t,m.i,m.on,64)}),h('b',{text:m.n}),h('small',{text:m.on?'получено':'как получить'})))});
-    var panel=h('div',{class:'ach-panel'},h('div',{class:'ach-top'},h('b',{text:'Собрано '+got.length+' из '+M.length}),h('span',{text:'осталось '+(M.length-got.length)})),h('div',{class:'ach-prog'},h('i',{style:'width:'+pc+'%'})),grid);
-    if(sel)panel.append(h('div',{class:'ach-det'},h('span',{html:medalSvg(sel.t,sel.i,sel.on,56)}),h('div',null,h('b',{text:sel.n}),h('p',{text:sel.on?'Получено. Так держать!':sel.how}))));
-    box.append(panel);
+    var row=h('div',{class:'ach-row'}),on=[];
+    EV.forEach(function(ev){
+      var p=pr(ev.id),ok=gotCert(ev);
+      var img=ok?certImg(ev,p.certName,true,'ach-img'):certImg(ev,'',false,'ach-img');
+      var btn=ok?h('button',{type:'button',class:'ach-btn dl',html:ICO_DL+'Скачать',onclick:function(){saveCert(ev,p.certName)}}):h('button',{type:'button',class:'ach-btn go',html:'Получить '+ICO_GO,onclick:function(){goEvent(ev)}});
+      row.append(h('div',{class:'ach-c'+(ok?' on':' off')},h('div',{class:'ach-pic'},img,ok?null:h('span',{class:'ach-lock',text:'🔒'})),h('i',{class:'ach-bar2'}),h('b',{text:ev.title}),btn));
+    });
+    box.append(h('div',{class:'ach-panel'},h('div',{class:'ach-top'},h('b',{text:'Мои сертификаты'}),h('span',{text:got+' из '+EV.length})),row,h('p',{class:'ach-hint',text:'Серый сертификат: нажмите «Получить», и мы проведём к нужному эфиру.'})));
   }
   return box;
 }
