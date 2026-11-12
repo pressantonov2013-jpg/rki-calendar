@@ -165,6 +165,14 @@ function linkBtn(url,cls,icon,label,dl){
 }
 function matRow(ev){
   var p=pr(ev.id),tone,status='',hint,R=h('div',{class:'m-right'});
+  if((ev.recordingUrl||ev.presentationUrl)&&p.mat!=='sent'){
+    /* материалы выдаются сразу, без запроса; факт открытия тихо фиксируем один раз */
+    S.am=S.am||{};
+    if(!p.mat&&!S.am[ev.id]&&S.token){S.am[ev.id]=1;setTimeout(function(){act({a:'mat',ev:ev.id})},0)}
+    tone='done';status='Готово';hint='Запись и презентация открыты.';
+    R.append(h('div',{class:'m-actions'},linkBtn(ev.recordingUrl,'btn btn-primary btn-sm',ico('play'),'Смотреть запись'),linkBtn(ev.presentationUrl,'btn btn-quiet btn-sm',ico('save'),'Скачать презентацию')),heartBox(ev,'mat'));
+    return rowShell({no:1,emoji:'🎬',title:'Запись + презентация',tone:tone,status:status,hint:hint,R:R});
+  }
   if(!p.mat){tone='todo';hint='Нажмите кнопку, материалы появятся здесь.';R.append(h('button',{type:'button',class:'btn btn-primary',onclick:function(){act({a:'mat',ev:ev.id})}},'Запросить'))}
   else if(p.mat==='req'){tone='wait';status='Запрос отправлен';hint='Материалы появятся здесь.';R.append(h('div',{class:'wait-note'},h('span',{class:'dots'},h('i'),h('i'),h('i')),h('span',{text:'Ждём организатора'})))}
   else{tone='done';status='Готово';hint=p.hMat?'Спасибо!':'Запись и презентация готовы.';
