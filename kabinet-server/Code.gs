@@ -35,17 +35,17 @@ function setup() {
   st.appendRow(['Мастер-класс', 'Людей в базе', 'Открыли кабинет', 'Получили запись', 'Ждут запись', 'Прошли тест', 'Получили сертификат', 'Ждут сертификат', 'Оставили реакцию', 'Оставили отзыв']);
   for (var r = 2; r <= 12; r++) {
     var id = SH.cfg + '!A' + r, e = 'IF(' + id + '="","",';
-    st.getRange(r, 1).setFormula('=' + e + SH.cfg + '!B' + r + ')');
-    st.getRange(r, 2).setFormula('=' + e + 'COUNTA(' + SH.ppl + '!A2:A))');
+    fml_(st, r, 1, '=' + e + SH.cfg + '!B' + r + ')');
+    fml_(st, r, 2, '=' + e + 'COUNTA(' + SH.ppl + '!A2:A))');
     var cnt = function (extra) { return '=' + e + 'COUNTIFS(' + SH.prog + '!B2:B,' + id + extra + '))'; };
-    st.getRange(r, 3).setFormula(cnt(',' + SH.prog + '!O2:O,"<>"'));
-    st.getRange(r, 4).setFormula(cnt(',' + SH.prog + '!C2:C,"' + ISSUED + '"'));
-    st.getRange(r, 5).setFormula(cnt(',' + SH.prog + '!C2:C,"' + WAIT + '"'));
-    st.getRange(r, 6).setFormula(cnt(',' + SH.prog + '!G2:G,"' + YES + '"'));
-    st.getRange(r, 7).setFormula(cnt(',' + SH.prog + '!I2:I,"' + ISSUED + '"'));
-    st.getRange(r, 8).setFormula(cnt(',' + SH.prog + '!G2:G,"' + YES + '",' + SH.prog + '!I2:I,"<>' + ISSUED + '"'));
-    st.getRange(r, 9).setFormula(cnt(',' + SH.prog + '!K2:K,"<>"'));
-    st.getRange(r, 10).setFormula(cnt(',' + SH.prog + '!N2:N,"<>"'));
+    fml_(st, r, 3, cnt(',' + SH.prog + '!O2:O,"<>"'));
+    fml_(st, r, 4, cnt(',' + SH.prog + '!C2:C,"' + ISSUED + '"'));
+    fml_(st, r, 5, cnt(',' + SH.prog + '!C2:C,"' + WAIT + '"'));
+    fml_(st, r, 6, cnt(',' + SH.prog + '!G2:G,"' + YES + '"'));
+    fml_(st, r, 7, cnt(',' + SH.prog + '!I2:I,"' + ISSUED + '"'));
+    fml_(st, r, 8, cnt(',' + SH.prog + '!G2:G,"' + YES + '",' + SH.prog + '!I2:I,"<>' + ISSUED + '"'));
+    fml_(st, r, 9, cnt(',' + SH.prog + '!K2:K,"<>"'));
+    fml_(st, r, 10, cnt(',' + SH.prog + '!N2:N,"<>"'));
   }
   log_('Таблица настроена');
 }
@@ -63,7 +63,7 @@ function makeTokens() {
   for (var i = 1; i < v.length; i++) {
     if (!v[i][0]) continue;
     if (!v[i][2]) { s.getRange(i + 1, 3).setValue(token_()); n++; }
-    s.getRange(i + 1, 7).setFormula('=IF(C' + (i + 1) + '="","","' + BASE_URL + '?t="&C' + (i + 1) + ')');
+    fml_(s, i + 1, 7, '=IF(C' + (i + 1) + '="","","' + BASE_URL + '?t="&C' + (i + 1) + ')');
     if (!v[i][5]) s.getRange(i + 1, 6).setValue(now_());
     if (!v[i][3]) s.getRange(i + 1, 4).setValue('рассылка');
   }
@@ -185,7 +185,7 @@ function actRequest_(b) {
   if (!p) {
     sheet_('ppl').appendRow([email, name, token_(), 'сайт', YES, now_(), '', '']);
     var n = sheet_('ppl').getLastRow();
-    sheet_('ppl').getRange(n, 7).setFormula('=IF(C' + n + '="","","' + BASE_URL + '?t="&C' + n + ')');
+    fml_(sheet_('ppl'), n, 7, '=IF(C' + n + '="","","' + BASE_URL + '?t="&C' + n + ')');
     tg_('🆕 Новая заявка с сайта: ' + name + ' · ' + email + '\nСогласие на рассылку есть. Не забудьте добавить в Unisender.');
   } else {
     ensureToken_(p);
@@ -275,6 +275,12 @@ function mailAnswer_(p, q, a) {
 }
 
 /* ---------- помощники ---------- */
+/** Записывает формулу с учётом языка таблицы: в русской локали разделитель аргументов «;», а не «,». */
+function fml_(sh, r, c, f) {
+  var loc = String(SpreadsheetApp.getActiveSpreadsheet().getSpreadsheetLocale() || 'en');
+  if (!/^en/i.test(loc)) f = f.replace(/,/g, ';');
+  sh.getRange(r, c).setFormula(f);
+}
 function sheet_(k) { var s = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SH[k]); if (!s) throw new Error('Нет листа ' + SH[k] + '. Запустите setup().'); return s; }
 function now_() { return Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd HH:mm'); }
 function norm_(e) { return String(e || '').trim().toLowerCase(); }
@@ -302,7 +308,7 @@ function byToken_(t) {
 }
 function ensureToken_(p) {
   if (p.token) return; var t = token_(); sheet_('ppl').getRange(p.row, 3).setValue(t);
-  sheet_('ppl').getRange(p.row, 7).setFormula('=IF(C' + p.row + '="","","' + BASE_URL + '?t="&C' + p.row + ')');
+  fml_(sheet_('ppl'), p.row, 7, '=IF(C' + p.row + '="","","' + BASE_URL + '?t="&C' + p.row + ')');
 }
 /** Возвращает номер строки в «Прогресс» (создаёт, если нет). При created=true возвращает объект {row, created}. */
 function ensureProg_(email, ev, wantObj) {
