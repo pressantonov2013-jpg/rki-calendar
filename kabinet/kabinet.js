@@ -21,15 +21,17 @@ function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(M
 
 /* ---------- состояние ---------- */
 var S={screen:'boot',user:null,prog:{},qs:[],token:'',quiz:{},zoom:'',open:{},draft:{},ask:null,msg:'',busy:false,form:false,formErr:''};
-function pr(id){return S.prog[id]||{mat:'',test:null,certName:'',cert:'',hMat:'',hCert:'',tags:[],review:''}}
+function pr(id){return S.prog[id]||{mat:'',test:null,certName:'',cert:'',hMat:'',hCert:'',tags:[],review:'',pres:'',prep:'',watch:'',survey:''}}
 
 /* ---------- связь с сервером ---------- */
 var demo={user:{name:'Анна Беляева',email:'demo@example.ru'},prog:{},qs:[]};
 function mockApi(b){
   var p=demo.prog[b.ev]=demo.prog[b.ev]||{mat:'',test:null,certName:'',cert:'',hMat:'',hCert:'',tags:[],review:''};
   if(b.a==='mat')p.mat='sent';
+  if(b.a==='pres')p.pres='sent';
+  if(b.a==='mark')p[b.key]=new Date().toISOString().slice(0,10);
   if(b.a==='test'){var pass=b.score>=need(b.total),was=p.test&&p.test.pass;p.test={score:b.score,total:b.total,pass:!!(pass||was)}}
-  if(b.a==='cert'){if(!(p.test&&p.test.pass))return {ok:false,err:'Сначала нужно пройти тест'};p.certName=b.name;p.cert='sent'}
+  if(b.a==='cert'){var te=evById(b.ev);if(te&&te.type==='trial'){if(!(p.prep&&p.watch&&p.survey))return {ok:false,err:'Сначала отметьте все шаги'}}else if(!(p.test&&p.test.pass))return {ok:false,err:'Сначала нужно пройти тест'};p.certName=b.name;p.cert='sent'}
   if(b.a==='heart'){if(b.key==='mat')p.hMat=b.emoji;else p.hCert=b.emoji}
   if(b.a==='review'){p.tags=b.tags||[];p.review=b.text||''}
   if(b.a==='ask')demo.qs.push({id:'q'+demo.qs.length,ev:b.ev,text:b.text,ans:''});
@@ -215,7 +217,79 @@ function reviewBox(ev){
   return h('div',{class:'review'},h('button',{type:'button',class:'rv-bar',onclick:function(){S.open[ev.id]=false;render()}},h('span',{class:'rv-ico',text:'💬'}),h('span',{class:'rv-bt'},h('b',{text:'Как вам мастер-класс?'}),h('small',{text:'Выберите стикеры, можно добавить пару слов'})),h('span',{class:'chev up',text:'⌄'})),tags,ta,
     h('div',{class:'rv-send'},h('button',{type:'button',class:'btn btn-primary btn-sm',onclick:function(){if(!d.tags.length&&!d.text.trim()){toast('Выберите стикер или напишите пару слов');return}act({a:'review',ev:ev.id,tags:d.tags,text:d.text.trim()}).then(function(){toast('Отправлено, спасибо!')})}},'Отправить')));
 }
+
+/* ---------- апробация (спектакль) ---------- */
+var ICO_PLAY='<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+var ICO_CP='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>';
+function fmtD(s){s=String(s||'');if(/^\d{4}-\d{2}-\d{2}/.test(s)){var d=new Date(s.slice(0,10)+'T12:00:00');return d.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})}return s}
+function streamOpen(ev){return !!ev.streamUrl&&(!ev.streamFrom||Date.now()>=new Date(ev.streamFrom+'T00:00:00+03:00').getTime())}
+function markBox(ev,key,text,doneText){
+  var p=pr(ev.id);
+  if(p[key])return h('div',{class:'mark done'},h('span',{class:'mk-b',html:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>'}),h('b',{text:doneText}),h('small',{text:' · '+fmtD(p[key])}));
+  return h('button',{type:'button',class:'mark',onclick:function(){act({a:'mark',ev:ev.id,key:key})}},h('span',{class:'mk-b'}),h('b',{text:text}));
+}
+function trialRows(ev){
+  var p=pr(ev.id),rows=[],R;
+  /* 1. презентация */
+  R=h('div',{class:'m-right'});var t1,s1='',hn1;
+  if(p.pres==='sent'){t1='done';s1='Готово';hn1='Презентация у вас.';R.append(linkBtn(ev.presentationUrl,'btn btn-primary btn-sm',ico('save'),'Скачать презентацию'))}
+  else{t1='todo';hn1='Яркие слайды и упражнения для подготовительного занятия.';R.append(h('button',{type:'button',class:'btn btn-primary',onclick:function(){act({a:'pres',ev:ev.id})}},'Запросить презентацию'))}
+  rows.push(rowShell({no:1,emoji:'📄',title:'Презентация с упражнениями',tone:t1,status:s1,hint:hn1,R:R}));
+  /* 2. подготовительное занятие */
+  R=h('div',{class:'m-right'});var t2,s2='',h2;
+  if(p.prep){t2='done';s2='Отмечено';h2='Подготовительное занятие проведено.';R.append(markBox(ev,'prep','','Провели занятие'))}
+  else if(p.pres!=='sent'){t2='lock';s2='После презентации';h2='Проведите занятие по презентации и отметьте здесь.'}
+  else{t2='todo';h2='Проведите занятие с учениками и отметьте.';R.append(markBox(ev,'prep','Я провёл(а) подготовительное занятие',''))}
+  rows.push(rowShell({no:2,emoji:'🧑‍🏫',title:'Подготовительное занятие',tone:t2,status:s2,hint:h2,R:R}));
+  /* 3. спектакль */
+  R=h('div',{class:'m-right'});var t3,s3='',h3;
+  if(!streamOpen(ev)){t3='lock';s3='Скоро';h3='Ссылка на трансляцию появится здесь за 3 дня до спектакля. Спектакль идёт 45 минут.'}
+  else{t3=p.watch?'done':'todo';s3=p.watch?'Отмечено':'Идёт сейчас';h3=p.watch?'Спектакль просмотрен.':'Смотрите вместе с учениками, потом отметьте.';
+    R.append(h('div',{class:'m-actions'},linkBtn(ev.streamUrl,'btn btn-live btn-sm',h('span',{html:ICO_PLAY}),'Смотреть спектакль')),markBox(ev,'watch','Посмотрели спектакль с учениками','Посмотрели спектакль'))}
+  rows.push(rowShell({no:3,emoji:'🎭',title:'Спектакль',tone:t3,status:s3,hint:h3,R:R}));
+  /* 4. опрос */
+  R=h('div',{class:'m-right'});var t4,s4='',h4;
+  if(!ev.surveyUrl||!p.watch){t4='lock';s4='После спектакля';h4='Ссылка на опрос откроется, когда вы отметите просмотр. Её нужно отдать ученикам.'}
+  else{t4=p.survey?'done':'todo';s4=p.survey?'Отмечено':'Открыт';h4=p.survey?'Ссылка передана ученикам.':'Дайте эту ссылку ученикам после просмотра.';
+    R.append(h('div',{class:'m-actions'},linkBtn(ev.surveyUrl,'btn btn-primary btn-sm',ico('quiz'),'Пройти опрос'),h('button',{type:'button',class:'btn btn-quiet btn-sm',onclick:function(){try{navigator.clipboard.writeText(ev.surveyUrl)}catch(e){}toast('Ссылка скопирована')}},h('span',{html:ICO_CP}),'Копировать ссылку для учеников')),markBox(ev,'survey','Я дал(а) ссылку ученикам','Ссылка передана ученикам'))}
+  rows.push(rowShell({no:4,emoji:'📝',title:'Опрос для учеников',tone:t4,status:s4,hint:h4,R:R}));
+  /* 5. сертификат */
+  R=h('div',{class:'m-right'});var t5,s5='',h5,zoomed=false,n=(p.prep?1:0)+(p.watch?1:0)+(p.survey?1:0);
+  if(n<3){t5='lock';s5='Скоро';h5='Сертификат участника апробации выдаётся после трёх отметок: занятие, спектакль, опрос.';
+    R.append(h('div',{class:'tprog'},h('div',{class:'tbars'},[1,2,3].map(function(i){return h('i',{class:i<=n?'on':''})})),h('small',{text:'Отмечено '+n+' из 3'})))}
+  else if(!p.certName){t5='todo';h5='Как написать ваше имя в сертификате?';
+    var inp=h('input',{type:'text',placeholder:'Фамилия Имя Отчество',value:S.user.name||'','aria-label':'Имя в сертификате'});
+    R.append(h('div',{class:'namebox'},h('div',{class:'fld'},inp),h('span',{class:'nameprev',text:'Проверьте написание: исправить потом можно только через организатора.'}),h('button',{type:'button',class:'btn btn-primary',onclick:function(){var v=inp.value.trim().replace(/\s+/g,' ');if(v.length<3){toast('Напишите имя полностью');return}act({a:'cert',ev:ev.id,name:v})}},'Получить сертификат')))}
+  else{t5='done';s5='Готово';h5='Сертификат участника апробации готов.';zoomed=S.zoom===ev.id;
+    var cb=h('button',{type:'button',class:'cert-btn','aria-label':'Показать сертификат крупно',onclick:function(){S.zoom=zoomed?'':ev.id;render()}});cb.append(certImg(ev,p.certName,true,'cert-img'));
+    R.append(h('div',{class:'m-actions'},cb,h('button',{type:'button',class:'btn btn-primary btn-sm',onclick:function(){saveCert(ev,p.certName)}},ico('save'),'Сохранить')))}
+  rows.push(rowShell({no:5,emoji:'🏅',title:'Сертификат участника апробации',tone:t5,status:s5,hint:h5,R:R,zoomed:zoomed}));
+  return rows;
+}
+function trialInfo(){
+  var li=['Получите презентацию и проведите подготовительное занятие.','Посмотрите спектакль с учениками по ссылке на трансляцию.','Дайте ученикам ссылку на интерактивный опрос.','Получите сертификат участника апробации.'];
+  return h('div',{class:'tinfo'},h('b',{text:'Как участвовать в апробации'}),h('ol',null,li.map(function(t){return h('li',{text:t})})),h('p',{text:'О мальчике, который отправляется в путешествие с гусями и учится дружить и помогать другим. Организаторы: АНО «Уникум Класс» (методический фонд РКИ), при поддержке кафедры лингводидактики и билингвизма МПГУ.'}));
+}
+function demoBar(ev){
+  ev._sf=ev._sf===undefined?ev.streamFrom:ev._sf;
+  function setPh(n){
+    var p=demo.prog[ev.id]={mat:'',test:null,certName:'',cert:'',hMat:'',hCert:'',tags:[],review:'',pres:'',prep:'',watch:'',survey:''};
+    ev.streamFrom=n>=2?'':ev._sf;
+    if(n>=1){p.pres='sent'}
+    if(n>=2){p.prep='2026-11-20'}
+    if(n>=3){p.watch='2026-11-28'}
+    if(n>=4){p.survey='2026-11-28'}
+    S.prog=JSON.parse(JSON.stringify(demo.prog));render();
+  }
+  return h('div',{class:'demobar'},h('b',{text:'Просмотр:'}),[['После регистрации',0],['Занятие проведено',2],['Спектакль просмотрен',3],['Всё отмечено',4]].map(function(x){return h('button',{type:'button',onclick:function(){setPh(x[1])}},x[0])}));
+}
+function trialCard(ev){
+  var head=h('div',{class:'tr-head'},ev.poster?h('img',{class:'tr-poster',src:ev.poster,alt:'Афиша'}):null,h('div',{class:'tr-info'},h('span',{class:'tr-chip',text:'Вы записаны'}),h('div',{class:'tr-kind',text:'Апробация · онлайн-спектакль'}),h('h3',{text:ev.title}),h('span',{class:'tr-date',text:ev.dateText}),h('p',{text:ev.host})));
+  var card=h('article',{class:'ev tr',id:'ev-'+ev.id},head,h('div',{class:'mrows'},trialRows(ev)));
+  var wrap=h('div',{class:'trwrap'});if(!K.API)wrap.append(demoBar(ev));wrap.append(card,trialInfo());return wrap;
+}
 function evCard(ev){
+  if(ev.type==='trial')return trialCard(ev);
   var p=pr(ev.id),got=p.cert==='sent'&&p.certName;
   var info=h('div',{class:'ev-info'},h('div',{class:'d-big'},h('b',{text:ev.day}),h('span',{text:ev.month})),h('div',{class:'d-sub',text:ev.weekday}),h('h3',{text:ev.title}),h('p',{class:'d-rest',text:ev.sub}),h('p',{class:'meta',text:ev.host}));
   var head=h('div',{class:'ev-head has-ban'+(ev.poster?' has-pic':'')},ev.poster?h('img',{class:'ev-poster',src:ev.poster,alt:'Афиша'}):null,info,h('div',{class:'ev-cert'},certImg(ev,got?p.certName:'',!!got,'ev-cert-img')));

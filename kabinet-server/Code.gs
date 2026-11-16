@@ -10,12 +10,12 @@ var TZ = 'Europe/Moscow';
 var SH = { ppl: 'Люди', prog: 'Прогресс', q: 'Вопросы', cfg: 'События', stat: 'Сводка', log: 'Журнал' };
 var HEAD = {
   ppl:  ['Почта', 'Имя', 'Токен', 'Источник', 'Согласие на рассылку', 'Создан', 'Личная ссылка', 'Последний вход'],
-  prog: ['Почта', 'Событие', 'Запись', 'Запись выдана', 'Баллы', 'Вопросов', 'Тест пройден', 'Имя в сертификате', 'Сертификат', 'Сертификат выдан', 'Реакция (запись)', 'Реакция (сертификат)', 'Стикеры', 'Отзыв', 'Открыл кабинет', 'Обновлено'],
+  prog: ['Почта', 'Событие', 'Запись', 'Запись выдана', 'Баллы', 'Вопросов', 'Тест пройден', 'Имя в сертификате', 'Сертификат', 'Сертификат выдан', 'Реакция (запись)', 'Реакция (сертификат)', 'Стикеры', 'Отзыв', 'Открыл кабинет', 'Обновлено', 'Презентация', 'Занятие проведено', 'Спектакль просмотрен', 'Опрос передан'],
   q:    ['ID', 'Время', 'Почта', 'Имя', 'Событие', 'Шаг', 'Вопрос', 'Ответ', 'Время ответа', 'Telegram message_id'],
-  cfg:  ['ID события', 'Название', 'Запись выдавать сразу (ДА/НЕТ)', 'Сертификат выдавать сразу (ДА/НЕТ)'],
+  cfg:  ['ID события', 'Название', 'Запись выдавать сразу (ДА/НЕТ)', 'Сертификат выдавать сразу (ДА/НЕТ)', 'Тип (пусто или апробация)'],
   log:  ['Время', 'Событие']
 };
-var P = { email: 0, ev: 1, mat: 2, matAt: 3, score: 4, total: 5, passed: 6, certName: 7, cert: 8, certAt: 9, hMat: 10, hCert: 11, tags: 12, review: 13, opened: 14, upd: 15 };
+var P = { email: 0, ev: 1, mat: 2, matAt: 3, score: 4, total: 5, passed: 6, certName: 7, cert: 8, certAt: 9, hMat: 10, hCert: 11, tags: 12, review: 13, opened: 14, upd: 15, pres: 16, prep: 17, watch: 18, survey: 19 };
 var ISSUED = 'выдано', WAIT = 'ждёт', YES = 'да';
 
 /* ---------- первичная настройка (запускается один раз) ---------- */
@@ -136,8 +136,24 @@ function route_(b) {
     set(P.score, sc); set(P.total, tot);
     if (pass) set(P.passed, YES);
     tg_('📝 ' + nm + ' · ' + cfg.title + ': ' + sc + ' из ' + tot + (pass ? ' — тест пройден' : ' — не хватило'));
+  } else if (b.a === 'pres') {
+    if (!cur[P.pres]) {
+      set(P.pres, ISSUED);
+      tg_('📄 ' + nm + ' получил(а) презентацию · ' + cfg.title);
+    }
+  } else if (b.a === 'mark') {
+    var keys = { prep: P.prep, watch: P.watch, survey: P.survey }, labels = { prep: 'провёл(а) подготовительное занятие', watch: 'посмотрел(а) спектакль с учениками', survey: 'передал(а) ученикам ссылку на опрос' };
+    if (keys[b.key] === undefined) return { ok: false, err: 'Неизвестная отметка' };
+    if (b.key === 'prep' && !cur[P.pres]) return { ok: false, err: 'Сначала получите презентацию' };
+    if (b.key === 'survey' && !cur[P.watch]) return { ok: false, err: 'Сначала отметьте просмотр спектакля' };
+    if (!cur[keys[b.key]]) {
+      set(keys[b.key], "'" + now_());
+      var cnt = (cur[P.prep] ? 1 : 0) + (cur[P.watch] ? 1 : 0) + (cur[P.survey] ? 1 : 0);
+      tg_('🧑‍🏫 ' + nm + ' (' + me.email + ') ' + labels[b.key] + ' · ' + cfg.title + '. Отмечено ' + cnt + ' из 3');
+    }
   } else if (b.a === 'cert') {
-    if (cur[P.passed] !== YES) return { ok: false, err: 'Сначала нужно пройти тест' };
+    if (cfg.trial) { if (!(cur[P.prep] && cur[P.watch] && cur[P.survey])) return { ok: false, err: 'Сначала отметьте все шаги' }; }
+    else if (cur[P.passed] !== YES) return { ok: false, err: 'Сначала нужно пройти тест' };
     var name = String(b.name || '').replace(/\s+/g, ' ').trim().slice(0, 120);
     if (name.length < 3) return { ok: false, err: 'Напишите имя полностью' };
     if (!cur[P.certName]) {
@@ -208,7 +224,8 @@ function state_(me) {
       certName: String(r[P.certName] || ''),
       cert: r[P.cert] === ISSUED ? 'sent' : (r[P.cert] === WAIT ? 'req' : ''),
       hMat: String(r[P.hMat] || ''), hCert: String(r[P.hCert] || ''),
-      tags: r[P.tags] ? String(r[P.tags]).split(', ') : [], review: String(r[P.review] || '')
+      tags: r[P.tags] ? String(r[P.tags]).split(', ') : [], review: String(r[P.review] || ''),
+      pres: r[P.pres] === ISSUED ? 'sent' : '', prep: String(r[P.prep] || ''), watch: String(r[P.watch] || ''), survey: String(r[P.survey] || '')
     };
   }
   var qv = sheet_('q').getDataRange().getValues(), qs = [];
@@ -293,8 +310,8 @@ function log_(t) { try { sheet_('log').appendRow([now_(), String(t)]); } catch (
 function evIds_() { var v = sheet_('cfg').getDataRange().getValues(), r = []; for (var i = 1; i < v.length; i++) if (v[i][0]) r.push(String(v[i][0])); return r; }
 function evCfg_(id) {
   var v = sheet_('cfg').getDataRange().getValues();
-  for (var i = 1; i < v.length; i++) if (String(v[i][0]) === id) return { title: v[i][1], autoMat: String(v[i][2]).toUpperCase() !== 'НЕТ', autoCert: String(v[i][3]).toUpperCase() !== 'НЕТ' };
-  return { title: id, autoMat: true, autoCert: true };
+  for (var i = 1; i < v.length; i++) if (String(v[i][0]) === id) return { title: v[i][1], autoMat: String(v[i][2]).toUpperCase() !== 'НЕТ', autoCert: String(v[i][3]).toUpperCase() !== 'НЕТ', trial: String(v[i][4] || '').toLowerCase() === 'апробация' };
+  return { title: id, autoMat: true, autoCert: true, trial: false };
 }
 function person_(email) {
   email = norm_(email); var v = sheet_('ppl').getDataRange().getValues();
@@ -332,4 +349,17 @@ function findChatId() {
   p.setProperty('TG_CHAT', id);
   UrlFetchApp.fetch('https://api.telegram.org/bot' + tok + '/sendMessage', { method: 'post', contentType: 'application/json', payload: JSON.stringify({ chat_id: id, text: '✅ Бот кабинета РКИ подключён. Сюда будут приходить события и вопросы участников.' }) });
   Logger.log('Готово: бот @' + me.result.username + ', chat id сохранён.');
+}
+
+/** Один раз, перед запуском апробации «Нильс Всемогущий»: добавляет колонки в «Прогресс» и событие в «События». */
+function addTrial() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var pg = ss.getSheetByName(SH.prog);
+  pg.getRange(1, 17, 1, 4).setValues([['Презентация', 'Занятие проведено', 'Спектакль просмотрен', 'Опрос передан']]);
+  var cf = ss.getSheetByName(SH.cfg);
+  cf.getRange(1, 5).setValue('Тип (пусто или апробация)');
+  var v = cf.getDataRange().getValues(), has = false;
+  for (var i = 1; i < v.length; i++) if (v[i][0] === 'nils') has = true;
+  if (!has) cf.appendRow(['nils', 'Нильс Всемогущий', 'ДА', 'ДА', 'апробация']);
+  log_('Апробация добавлена');
 }
