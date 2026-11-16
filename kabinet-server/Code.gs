@@ -260,6 +260,7 @@ function tgUpdate_(u) {
   var mid = String(m.reply_to_message.message_id), s = sheet_('q'), v = s.getDataRange().getValues();
   for (var i = 1; i < v.length; i++) {
     if (String(v[i][9]) === mid) {
+      if (v[i][7]) return;   // ответ уже записан — не обрабатываем повторно (защита от retry webhook)
       s.getRange(i + 1, 8).setValue(m.text); s.getRange(i + 1, 9).setValue(now_());
       var p = person_(v[i][2]);
       if (p) mailAnswer_(p, v[i][6], m.text);
