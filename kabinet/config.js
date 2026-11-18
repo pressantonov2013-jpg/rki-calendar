@@ -15,7 +15,7 @@ window.KAB = {
       dateText: '28 ноября · 11:00 МСК',
       host: 'Театр сторителлинга Константина Кожевникова · 45 минут · уровень B2',
       poster: 'assets/poster-nils.jpg',
-      presentationUrl: '',       /* TODO: ссылка на презентацию с упражнениями */
+      presentationUrl: 'https://docs.google.com/presentation/d/1izM4a677w2UeAOL9FS7u7s96ppz8lVo1/edit?usp=sharing&ouid=109756911110095906603&rtpof=true&sd=true',
       streamUrl: '',             /* TODO: ссылка на трансляцию */
       streamFrom: '2026-11-25',  /* ссылка на трансляцию появляется у участников за 3 дня до спектакля */
       surveyUrl: '',             /* TODO: ссылка на интерактивный опрос (открывается после отметки «посмотрели спектакль») */
